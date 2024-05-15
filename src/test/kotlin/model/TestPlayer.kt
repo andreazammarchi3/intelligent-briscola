@@ -11,8 +11,7 @@ class TestPlayer {
         "Player",
         false,
         mutableListOf(handCard1, handCard2),
-        mutableListOf(gainedCard1, gainedCard2),
-        0)
+        mutableListOf(gainedCard1, gainedCard2))
 
     @Test
     fun testGetHandCards() {
@@ -22,11 +21,6 @@ class TestPlayer {
     @Test
     fun testGetGainedCards() {
         assertEquals(2, player.getGainedCards().size)
-    }
-
-    @Test
-    fun testGetPoints() {
-        assertEquals(0, player.getPoints())
     }
 
     @Test
@@ -80,9 +74,12 @@ class TestPlayer {
     }
 
     @Test
-    fun testAddPoints() {
-        player.addPoints(5)
-        assertEquals(5, player.getPoints())
+    fun testPoints() {
+        var points = 0
+        for (card in player.getGainedCards()) {
+            points += card.getValue()
+        }
+        assertEquals(points, player.points())
     }
 
     @Test
@@ -90,7 +87,6 @@ class TestPlayer {
         player.reset()
         assertEquals(0, player.getHandCards().size)
         assertEquals(0, player.getGainedCards().size)
-        assertEquals(0, player.getPoints())
     }
 
 

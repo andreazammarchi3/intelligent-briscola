@@ -8,8 +8,7 @@ package model
 class Player(val name: String,
              val isBot: Boolean = false,
              private val handCards: MutableList<Card> = mutableListOf(),
-             private val gainedCards: MutableList<Card> = mutableListOf(),
-             private var points: Int = 0) {
+             private val gainedCards: MutableList<Card> = mutableListOf()) {
 
     /**
      * Get the hand cards of the player.
@@ -25,14 +24,6 @@ class Player(val name: String,
      */
     fun getGainedCards(): List<Card> {
         return gainedCards
-    }
-
-    /**
-     * Get the points of the player.
-     * @return The points of the player.
-     */
-    fun getPoints(): Int {
-        return points
     }
 
     /**
@@ -92,23 +83,23 @@ class Player(val name: String,
             throw IllegalArgumentException("Player already gained the card")
         }
         gainedCards.add(card)
-        points += card.getValue()
     }
 
     /**
-     * Add points to the player.
-     * @param points The points to add.
+     * Get the points of the player's gained cards.
+     * @return The points of the player's gained cards.
      */
-    fun addPoints(points: Int) {
-        this.points += points
+    fun points(): Int {
+        return gainedCards.sumOf {
+            it.getValue()
+        }
     }
 
-    /**
+        /**
      * Reset the player's state.
      */
     fun reset() {
         handCards.clear()
         gainedCards.clear()
-        points = 0
     }
 }
