@@ -3,6 +3,16 @@ package model
 import utils.Math
 import kotlin.random.Random
 
+/**
+ * Represents a match between two players
+ * @param players the players of the match
+ * @param deck the deck of the match
+ * @property playingFirstPlayer true if the first player is playing, false otherwise
+ * @property winner the winner of the match
+ * @property lastCard the last card drawn from the deck
+ * @property briscolaSuit the briscola suit
+ * @property playedCards the cards played in the match
+ */
 class Match(val players: MutableList<Player>, val deck: MutableList<Card>) {
     private var playingFirstPlayer = true
     private var winner: Player? = null
@@ -67,6 +77,14 @@ class Match(val players: MutableList<Player>, val deck: MutableList<Card>) {
         }
     }
 
+    /**
+     * Let the player play a card
+     * @param player the player that plays the card
+     * @param card the card played by the player
+     * @throws IllegalStateException if the player doesn't have the card in hand
+     * @throws IllegalStateException if the match ended in a draw
+     * @throws IllegalStateException if the player tries to play a card when it's not his turn
+     */
     fun playerPlayCard(player: Player, card: Card) {
         if (!player.hasCardInHand(card)) {
             return
@@ -75,8 +93,14 @@ class Match(val players: MutableList<Player>, val deck: MutableList<Card>) {
             cardPlayedFirst(player, card)
             playingFirstPlayer = false
         } else {
-            cardPlayedSecond(player, card)
-            playingFirstPlayer = true
+            try {
+                cardPlayedSecond(player, card)
+                if (winner == null) {
+                    playingFirstPlayer = true
+                }
+            } catch (e: IllegalStateException) {
+                println(e.message)
+            }
         }
     }
 
