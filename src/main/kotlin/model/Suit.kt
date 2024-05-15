@@ -3,7 +3,7 @@ package model
 /**
  * Enum containing the 4 suits.
  */
-enum class Suits {
+enum class Suit {
     CLUBS,
     COINS,
     CUPS,
