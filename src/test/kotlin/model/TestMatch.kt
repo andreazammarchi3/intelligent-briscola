@@ -1,5 +1,6 @@
 package model
 
+import briscola.model.StartingPLayerOption
 import utils.Math
 import kotlin.test.*
 
@@ -53,6 +54,16 @@ class TestMatch {
         assertNotNull(match.getBriscolaSuit())
         assertEquals(3, player1.getHandCards().size)
         assertEquals(3, player2.getHandCards().size)
+
+        match.reset()
+        match.prepareMatch(shuffleDeck = false, startingPlayerOption = StartingPLayerOption.PLAYER2)
+        val unshuffledDeck = Card.entries.toMutableList()
+        for (i in 0..6) {
+            unshuffledDeck.removeAt(0)
+        }
+        assertEquals(unshuffledDeck, match.deck)
+        assertEquals(player2, match.players[0])
+        assertEquals(player1, match.players[1])
     }
 
     @Test

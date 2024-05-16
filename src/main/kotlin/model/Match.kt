@@ -1,5 +1,6 @@
 package model
 
+import briscola.model.StartingPLayerOption
 import utils.Math
 import kotlin.random.Random
 
@@ -60,18 +61,20 @@ class Match(val players: MutableList<Player>, val deck: MutableList<Card>) {
 
     /**
      * Prepare the match by shuffling the deck, setting the last card and giving 3 cards to each player
+     * @param shuffleDeck true if the deck should be shuffled, false otherwise, default is true
+     * @param startingPlayerOption the starting player option, default is random
      */
-    fun prepareMatch() {
-        deck.shuffle()
+    fun prepareMatch(shuffleDeck: Boolean = true, startingPlayerOption: StartingPLayerOption = StartingPLayerOption.RANDOM) {
+        if (shuffleDeck) deck.shuffle()
 
         lastCard = deck.removeAt(0)
         briscolaSuit = lastCard!!.getSuit()
 
-        if (Random.nextBoolean()) {
+        if ((startingPlayerOption == StartingPLayerOption.RANDOM && Random.nextBoolean()) || startingPlayerOption == StartingPLayerOption.PLAYER2) {
             switchTurn()
         }
 
-        for (i in 0 until 3) {
+        for (i in 0 .. 2) {
             playerDrawCard(players[0])
             playerDrawCard(players[1])
         }
@@ -102,6 +105,20 @@ class Match(val players: MutableList<Player>, val deck: MutableList<Card>) {
                 println(e.message)
             }
         }
+    }
+
+    /**
+     * Reset the match
+     */
+    fun reset() {
+        winner = null
+        lastCard = null
+        briscolaSuit = null
+        playedCards.clear()
+        players.forEach { it.reset() }
+        deck.clear()
+        deck.addAll(Card.entries)
+
     }
 
     private fun switchTurn() {
