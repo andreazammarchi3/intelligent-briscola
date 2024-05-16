@@ -89,6 +89,20 @@ class TestPlayer {
         assertEquals(0, player.getGainedCards().size)
     }
 
+    @Test
+    fun testToString() {
+        assertEquals("Player(name='" + player.name + "', isBot=" + player.isBot + ", handCards=" +
+                player.getHandCards() + ", gainedCards=" + player.getGainedCards() + ")", player.toString())
+    }
 
+    @Test
+    fun testEquals() {
+        val player2: Player = Player(
+            "Player",
+            false,
+            mutableListOf(handCard1, handCard2),
+            mutableListOf(gainedCard1, gainedCard2))
+        assertEquals(player, player2)
+    }
 
 }

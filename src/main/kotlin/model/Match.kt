@@ -1,6 +1,6 @@
 package model
 
-import briscola.model.StartingPLayerOption
+import briscola.model.StartingPlayerOption
 import utils.Math
 import kotlin.random.Random
 
@@ -64,13 +64,13 @@ class Match(val players: MutableList<Player>, val deck: MutableList<Card>) {
      * @param shuffleDeck true if the deck should be shuffled, false otherwise, default is true
      * @param startingPlayerOption the starting player option, default is random
      */
-    fun prepareMatch(shuffleDeck: Boolean = true, startingPlayerOption: StartingPLayerOption = StartingPLayerOption.RANDOM) {
+    fun prepareMatch(shuffleDeck: Boolean = true, startingPlayerOption: StartingPlayerOption = StartingPlayerOption.RANDOM) {
         if (shuffleDeck) deck.shuffle()
 
         lastCard = deck.removeAt(0)
         briscolaSuit = lastCard!!.getSuit()
 
-        if ((startingPlayerOption == StartingPLayerOption.RANDOM && Random.nextBoolean()) || startingPlayerOption == StartingPLayerOption.PLAYER2) {
+        if ((startingPlayerOption == StartingPlayerOption.RANDOM && Random.nextBoolean()) || startingPlayerOption == StartingPlayerOption.PLAYER2) {
             switchTurn()
         }
 
@@ -118,7 +118,24 @@ class Match(val players: MutableList<Player>, val deck: MutableList<Card>) {
         players.forEach { it.reset() }
         deck.clear()
         deck.addAll(Card.entries)
+    }
 
+    /**
+     * Check if the match has a winner, if so set the winner, otherwise do nothing.
+     * If the match ended in a draw, set the winner to a new player with the name "Draw"
+     */
+    fun checkWinner() {
+        winner = if (players[0].getHandCards().isEmpty() && players[1].getHandCards().isEmpty()) {
+            if (players[0].points() > players[1].points()) {
+                players[0]
+            } else if (players[0].points() < players[1].points()) {
+                players[1]
+            } else {
+                Player("Draw")
+            }
+        } else {
+            null
+        }
     }
 
     private fun switchTurn() {
@@ -156,23 +173,5 @@ class Match(val players: MutableList<Player>, val deck: MutableList<Card>) {
         players[0].gainCard(playedCards[1])
 
         playedCards.clear()
-
-        try {
-            checkWinner()
-        } catch (e: IllegalStateException) {
-            println(e.message)
-        }
-    }
-
-    private fun checkWinner() {
-        if (players[0].getHandCards().isEmpty() && players[1].getHandCards().isEmpty()) {
-            winner = if (players[0].points() > players[1].points()) {
-                players[0]
-            } else if (players[0].points() < players[1].points()) {
-                players[1]
-            } else {
-                throw IllegalStateException("Match ended in a draw")
-            }
-        }
     }
 }

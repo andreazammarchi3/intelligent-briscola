@@ -102,4 +102,28 @@ class Player(val name: String,
         handCards.clear()
         gainedCards.clear()
     }
+
+    override fun toString(): String {
+        return "Player(name='$name', isBot=$isBot, handCards=$handCards, gainedCards=$gainedCards)"
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is Player) return false
+
+        if (name != other.name) return false
+        if (isBot != other.isBot) return false
+        if (handCards != other.handCards) return false
+        if (gainedCards != other.gainedCards) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = name.hashCode()
+        result = 31 * result + isBot.hashCode()
+        result = 31 * result + handCards.hashCode()
+        result = 31 * result + gainedCards.hashCode()
+        return result
+    }
 }
