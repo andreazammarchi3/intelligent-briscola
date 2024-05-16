@@ -1,5 +1,10 @@
 plugins {
     kotlin("jvm") version "1.9.23"
+    application
+}
+
+application {
+    mainClass.set("briscola.MainKt")
 }
 
 group = "briscola"
@@ -11,6 +16,7 @@ repositories {
 
 dependencies {
     testImplementation(kotlin("test"))
+    implementation("com.intellij:forms_rt:7.0.3")
 }
 
 tasks.test {

@@ -1,5 +1,9 @@
 package briscola
 
+import briscola.gui.Menu
+
 fun main() {
-    println("Hello World!")
+    javax.swing.SwingUtilities.invokeLater {
+        val menu = Menu()
+    }
 }
