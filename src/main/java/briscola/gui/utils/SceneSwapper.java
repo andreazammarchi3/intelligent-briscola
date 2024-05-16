@@ -1,5 +1,6 @@
 package briscola.gui.utils;
 
+import briscola.gui.model.FxmlPath;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -19,11 +20,12 @@ public class SceneSwapper {
 
     /**
      * Create a scene with a fxml file and assign a controller to it a controller.
-     * @param fxml The fxml file name which has to be loaded in the scene.
+     * @param controller The controller to be assigned to the scene.
+     * @param fxmlPath The path to the fxml file.
      * @param stage The stage containing the new scene.
      */
-    public void swapScene(final Initializable controller, final String fxml, final Stage stage){
-        FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(PATH + fxml)));
+    public void swapScene(final Initializable controller, final FxmlPath fxmlPath, final Stage stage){
+        FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(PATH + fxmlPath.getPath())));
         loader.setController(controller);
         try {
             Parent root = loader.load();
