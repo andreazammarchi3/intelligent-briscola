@@ -1,4 +1,4 @@
-package model
+package briscola.model
 
 /**
  * Represents a player in the game.

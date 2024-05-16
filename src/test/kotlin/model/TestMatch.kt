@@ -1,7 +1,10 @@
 package model
 
+import briscola.model.Card
+import briscola.model.Match
+import briscola.model.Player
 import briscola.model.StartingPlayerOption
-import utils.Math
+import briscola.utils.Math
 import kotlin.test.*
 
 class TestMatch {

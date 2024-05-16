@@ -1,4 +1,4 @@
-package model
+package briscola.model
 
 /**
  * Enum containing all the Cards in a typical deck of Briscola.

@@ -1,5 +1,6 @@
 package model
 
+import briscola.model.Card
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

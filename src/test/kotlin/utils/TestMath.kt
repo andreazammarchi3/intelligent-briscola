@@ -1,7 +1,8 @@
 package utils
 
-import model.Card
-import model.Suit
+import briscola.model.Card
+import briscola.model.Suit
+import briscola.utils.Math
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

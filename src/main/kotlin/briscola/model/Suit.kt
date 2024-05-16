@@ -1,4 +1,4 @@
-package model
+package briscola.model
 
 /**
  * Enum containing the 4 suits.

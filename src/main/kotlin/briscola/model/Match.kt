@@ -1,7 +1,7 @@
-package model
+package briscola.model
 
 import briscola.model.StartingPlayerOption
-import utils.Math
+import briscola.utils.Math
 import kotlin.random.Random
 
 /**

@@ -1,7 +1,7 @@
-package utils
+package briscola.utils
 
-import model.Card
-import model.Suit
+import briscola.model.Card
+import briscola.model.Suit
 
 /**
  * Utility class for math operations.
