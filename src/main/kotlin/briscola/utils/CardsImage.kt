@@ -1,12 +1,11 @@
-package briscola.gui.utils;
+package briscola.utils
 
-import javafx.scene.image.Image;
+import javafx.scene.image.Image
 
 /**
  * Enum containing all the possible cards.
  */
-public enum CardsImages {
-
+enum class CardsImages(private val id: Int, private val path: String?) {
     NULL(0, null),
     CLUBS_1(1, "/imgs/cards/clubs_one.png"),
     CLUBS_2(2, "/imgs/cards/clubs_two.png"),
@@ -53,36 +52,28 @@ public enum CardsImages {
     SWORDS_10(40, "/imgs/cards/swords_ten.png"),
 
     BACK(41, "/imgs/back.png"),
-    NOT_FOUND(42, "/imgs/not_found.png")
-    ;
+    NOT_FOUND(42, "/imgs/not_found.png");
 
-    private final int id;
-    private final String path;
+    val image: Image?
+        /**
+         * Get the card Image
+         * @return the Image
+         */
+        get() = if (path != null) Image(path) else null
 
-    CardsImages(int id, String path) {
-        this.id = id;
-        this.path = path;
-    }
-
-    /**
-     * Get the card Image
-     * @return the Image
-     */
-    public Image getImage() {
-        return path != null ? new Image(path) : null;
-    }
-
-    /**
-     * Get the card Image by the card id
-     * @param id the id of the card
-     * @return the Image of the card
-     */
-    public static Image getImageById(int id) {
-        for (CardsImages cardImage : values()) {
-            if (cardImage.id == id) {
-                return new Image(cardImage.path);
+    companion object {
+        /**
+         * Get the card Image by the card id
+         * @param id the id of the card
+         * @return the Image of the card
+         */
+        fun getImageById(id: Int): Image {
+            for (cardImage in entries) {
+                if (cardImage.id == id) {
+                    return Image(cardImage.path)
+                }
             }
+            return Image("/imgs/not_found.png")
         }
-        return new Image("/imgs/not_found.png");
     }
 }

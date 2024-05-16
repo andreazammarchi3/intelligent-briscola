@@ -1,8 +1,8 @@
 package briscola
 
-import briscola.gui.model.FxmlPath
-import briscola.gui.utils.SceneSwapper
-import briscola.gui.view.MenuView
+import briscola.utils.FxmlPath
+import briscola.utils.SceneSwapper
+import briscola.view.MenuView
 import javafx.application.Application
 import javafx.stage.Stage
 
