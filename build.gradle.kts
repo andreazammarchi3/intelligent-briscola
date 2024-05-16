@@ -1,10 +1,12 @@
 plugins {
     kotlin("jvm") version "1.9.23"
     application
+
+    id("org.openjfx.javafxplugin") version "0.0.13"
 }
 
 application {
-    mainClass.set("briscola.MainKt")
+    mainClass.set("briscola.LauncherKt")
 }
 
 group = "briscola"
@@ -16,7 +18,6 @@ repositories {
 
 dependencies {
     testImplementation(kotlin("test"))
-    implementation("com.intellij:forms_rt:7.0.3")
 }
 
 tasks.test {
@@ -24,4 +25,9 @@ tasks.test {
 }
 kotlin {
     jvmToolchain(17)
+}
+
+javafx {
+    version = "21"
+    modules("javafx.controls", "javafx.fxml", "javafx.base", "javafx.graphics", "javafx.media")
 }
