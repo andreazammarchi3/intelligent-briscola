@@ -53,10 +53,6 @@ class TestMatch {
             unshuffledDeck.removeAt(0)
         }
         assertEquals(unshuffledDeck, match.deck)
-        println(player2)
-        println(match.players[0])
-        println(player1)
-        println(match.players[1])
         assertEquals(player2, match.players[0])
         assertEquals(player1, match.players[1])
 
