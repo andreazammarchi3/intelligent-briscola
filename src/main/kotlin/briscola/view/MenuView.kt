@@ -27,7 +27,7 @@ class MenuView(private val stage: Stage) : Initializable {
 
     private fun startMatch() {
         val playerName = txtPlayerName.text
-        if (playerName.isNotBlank() && playerName.isNotEmpty() && playerName != "Draw") {
+        if (playerName.isNotBlank() && playerName.isNotEmpty()) {
             SceneSwapper().swapScene(MatchView(stage, playerName), FxmlPath.MATCH, stage)
         } else {
             txtPlayerName.promptText = "Please enter a name"

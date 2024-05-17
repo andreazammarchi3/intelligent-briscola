@@ -1,21 +1,16 @@
 package model
 
-import briscola.model.Card
-import briscola.model.Match
-import briscola.model.Player
-import briscola.model.StartingPlayerOption
+import briscola.model.*
 import briscola.utils.Math
 import kotlin.test.*
 
 class TestMatch {
-    private val player1 = Player("Player 1")
-    private val player2 = Player("Player 2")
-    private val match = Match(mutableListOf(player1, player2), Card.entries.toMutableList())
+    private val player = Player("Player")
+    private val match = Match(player, Card.entries.toMutableList())
 
     @Test
     fun testInit() {
-        assertEquals(player1, match.players[0])
-        assertEquals(player2, match.players[1])
+        assertEquals(player, match.player)
         assertEquals(40, match.deck.size)
         assertEquals(0, match.getPlayedCards().size)
         assertNull(match.getWinner())
@@ -24,8 +19,8 @@ class TestMatch {
     }
 
     @Test
-    fun testPlayingFirstPlayer() {
-        assertTrue(match.playingFirstPlayer())
+    fun testIsPlayerTurn() {
+        assertTrue(match.isPlayerTurn())
     }
 
     @Test
@@ -50,14 +45,13 @@ class TestMatch {
 
     @Test
     fun testPrepareMatch() {
-        match.prepareMatch(shuffleDeck = false, startingPlayerOption = StartingPlayerOption.PLAYER2)
+        match.prepareMatch(shuffleDeck = false, startingPlayerOption = StartingPlayerOption.BOT)
         val unshuffledDeck = Card.entries.toMutableList()
         for (i in 0..6) {
             unshuffledDeck.removeAt(0)
         }
         assertEquals(unshuffledDeck, match.deck)
-        assertEquals(player2, match.players[0])
-        assertEquals(player1, match.players[1])
+        assertFalse(match.isPlayerTurn())
 
         match.reset()
         match.prepareMatch()
@@ -65,53 +59,48 @@ class TestMatch {
         assertEquals(0, match.getPlayedCards().size)
         assertNotNull(match.getLastCard())
         assertNotNull(match.getBriscolaSuit())
-        assertEquals(3, player1.getHandCards().size)
-        assertEquals(3, player2.getHandCards().size)
+        assertEquals(3, match.player.getHandCards().size)
+        assertEquals(3, match.bot.getHandCards().size)
     }
 
     @Test
-    fun testPlayerPlayCard() {
+    fun testPlayCard() {
         match.prepareMatch()
 
-        val card1 = match.players[0].getHandCards()[0]
-        match.playerPlayCard(match.players[0], card1)
+        val card1 = match.player.getHandCards()[0]
+        match.playCard(match.player, card1)
         assertEquals(card1, match.getPlayedCards()[0])
 
-        val card2 = match.players[1].getHandCards()[0]
-        match.playerPlayCard(match.players[1], card2)
+        val card2 = match.bot.getHandCards()[0]
+        match.playCard(match.bot, card2)
         println(card1)
         println(card2)
         println(match.getPlayedCards())
-        println(match.players[0].getGainedCards())
-        println(match.players[1].getGainedCards())
+        println(match.player.getGainedCards())
+        println(match.bot.getGainedCards())
         if (Math.getHigherCard(card1, card2, match.getBriscolaSuit()!!) == card1) {
-            assertTrue(match.players[0].getGainedCards().isNotEmpty())
-            assertTrue(match.players[1].getGainedCards().isEmpty())
+            assertTrue(match.player.getGainedCards().isNotEmpty())
+            assertTrue(match.bot.getGainedCards().isEmpty())
         }
-        assertEquals(3, match.players[0].getHandCards().size)
-        assertEquals(3, match.players[1].getHandCards().size)
+        assertEquals(3, match.player.getHandCards().size)
+        assertEquals(3, match.bot.getHandCards().size)
     }
 
     @Test
     fun testCheckWinner() {
-        player1.gainCard(Card.SWORDS_1)
-        player2.gainCard(Card.SWORDS_3)
+        match.player.gainCard(Card.SWORDS_1)
+        match.bot.gainCard(Card.SWORDS_3)
         match.deck.clear()
         match.checkWinner()
-        assertEquals(player1, match.getWinner())
+        assertEquals(Winner.PLAYER, match.getWinner())
 
-        player1.gainCard(Card.SWORDS_2)
-        player2.gainCard(Card.SWORDS_10)
+        match.player.gainCard(Card.SWORDS_2)
+        match.bot.gainCard(Card.SWORDS_10)
         match.checkWinner()
-        assertEquals(player2, match.getWinner())
+        assertEquals(Winner.BOT, match.getWinner())
 
-        player1.gainCard(Card.SWORDS_9)
+        match.player.gainCard(Card.SWORDS_9)
         match.checkWinner()
-        assertEquals(Player("Draw"), match.getWinner())
-
-        val newMatch = Match(mutableListOf(player1, player2), Card.entries.toMutableList())
-        newMatch.prepareMatch()
-        newMatch.checkWinner()
-        assertNull(newMatch.getWinner())
+        assertEquals(Winner.DRAW, match.getWinner())
     }
 }

@@ -7,5 +7,5 @@ package briscola.model
  * PLAYER2: the starting player is the player 2.
  */
 enum class StartingPlayerOption {
-    RANDOM, PLAYER1, PLAYER2;
+    RANDOM, PLAYER, BOT;
 }

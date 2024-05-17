@@ -5,34 +5,36 @@ import kotlin.random.Random
 
 /**
  * Represents a match between two players
- * @param players the players of the match
+ * @param player the player of the match
  * @param deck the deck of the match
- * @property playingFirstPlayer true if the first player is playing, false otherwise
+ * @property playerTurn true if the player is playing, false if it's bot's turn
  * @property winner the winner of the match
  * @property lastCard the last card drawn from the deck
  * @property briscolaSuit the briscola suit
  * @property playedCards the cards played in the match
  */
-class Match(val players: MutableList<Player>, val deck: MutableList<Card>) {
-    private var playingFirstPlayer = true
-    private var winner: Player? = null
+class Match(val player: Player, val deck: MutableList<Card>) {
+    private var playerTurn = true
+    private var winner: Winner? = null
     private var lastCard: Card? = null
     private var briscolaSuit: Suit? = null
     private val playedCards = mutableListOf<Card>()
 
+    val bot = Player("Bot")
+
     /**
-     * Returns true if the first player is playing, false otherwise
-     * @return true if the first player is playing, false otherwise
+     * Check if it's player's turn
+     * @return true if it's player's turn, false otherwise
      */
-    fun playingFirstPlayer(): Boolean {
-        return playingFirstPlayer
+    fun isPlayerTurn(): Boolean {
+        return playerTurn
     }
 
     /**
      * Get the winner of the match
      * @return the winner of the match
      */
-    fun getWinner(): Player? {
+    fun getWinner(): Winner? {
         return winner
     }
 
@@ -69,13 +71,15 @@ class Match(val players: MutableList<Player>, val deck: MutableList<Card>) {
         lastCard = deck.removeAt(0)
         briscolaSuit = lastCard!!.getSuit()
 
-        if ((startingPlayerOption == StartingPlayerOption.RANDOM && Random.nextBoolean()) || startingPlayerOption == StartingPlayerOption.PLAYER2) {
-            switchTurn()
+        playerTurn = if (startingPlayerOption == StartingPlayerOption.RANDOM) {
+            Random.nextBoolean()
+        } else {
+            startingPlayerOption == StartingPlayerOption.PLAYER
         }
 
         for (i in 0 .. 2) {
-            playerDrawCard(players[0])
-            playerDrawCard(players[1])
+            playerDrawCard(player)
+            playerDrawCard(bot)
         }
     }
 
@@ -87,21 +91,17 @@ class Match(val players: MutableList<Player>, val deck: MutableList<Card>) {
      * @throws IllegalStateException if the match ended in a draw
      * @throws IllegalStateException if the player tries to play a card when it's not his turn
      */
-    fun playerPlayCard(player: Player, card: Card) {
+    fun playCard(player: Player, card: Card) {
         if (!player.hasCardInHand(card)) {
             return
         }
-        if (playingFirstPlayer) {
+        if (playedCards.size == 1) {
             cardPlayedFirst(player, card)
-            playingFirstPlayer = false
         } else {
-            try {
-                cardPlayedSecond(player, card)
-                if (winner == null) {
-                    playingFirstPlayer = true
-                }
-            } catch (e: IllegalStateException) {
-                println(e.message)
+            cardPlayedSecond(player, card)
+            checkWinner()
+            if (winner != null) {
+                println("The winner is $winner")
             }
         }
     }
@@ -114,7 +114,8 @@ class Match(val players: MutableList<Player>, val deck: MutableList<Card>) {
         lastCard = null
         briscolaSuit = null
         playedCards.clear()
-        players.forEach { it.reset() }
+        player.reset()
+        bot.reset()
         deck.clear()
         deck.addAll(Card.entries)
     }
@@ -124,21 +125,21 @@ class Match(val players: MutableList<Player>, val deck: MutableList<Card>) {
      * If the match ended in a draw, set the winner to a new player with the name "Draw"
      */
     fun checkWinner() {
-        winner = if (players[0].getHandCards().isEmpty() && players[1].getHandCards().isEmpty()) {
-            if (players[0].points() > players[1].points()) {
-                players[0]
-            } else if (players[0].points() < players[1].points()) {
-                players[1]
+        winner = if (player.getHandCards().isEmpty() && bot.getHandCards().isEmpty()) {
+            if (player.points() > bot.points()) {
+                Winner.PLAYER
+            } else if (player.points() < bot.points()) {
+                Winner.BOT
             } else {
-                Player("Draw")
+                Winner.DRAW
             }
         } else {
             null
         }
     }
 
-    private fun switchTurn() {
-        players.reverse()
+    private fun switchTurn(playerHasToPlay: Boolean? = null) {
+        playerTurn = playerHasToPlay ?: !playerTurn
     }
 
     private fun playerDrawCard(player: Player) {
@@ -162,14 +163,20 @@ class Match(val players: MutableList<Player>, val deck: MutableList<Card>) {
         playedCards.add(card)
         val higherCard = Math.getHigherCard(playedCards[0], playedCards[1], briscolaSuit!!)
         if (higherCard == playedCards[1]) {
-            switchTurn()
+            if (playerTurn) {
+                switchTurn(true)
+                playerDrawCard(player)
+                playerDrawCard(bot)
+                player.gainCard(playedCards[0])
+                player.gainCard(playedCards[1])
+            } else {
+                switchTurn(false)
+                playerDrawCard(bot)
+                playerDrawCard(player)
+                bot.gainCard(playedCards[0])
+                bot.gainCard(playedCards[1])
+            }
         }
-
-        playerDrawCard(players[0])
-        playerDrawCard(players[1])
-
-        players[0].gainCard(playedCards[0])
-        players[0].gainCard(playedCards[1])
 
         playedCards.clear()
     }
