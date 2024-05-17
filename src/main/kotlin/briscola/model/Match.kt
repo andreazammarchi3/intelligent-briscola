@@ -1,6 +1,5 @@
 package briscola.model
 
-import briscola.model.StartingPlayerOption
 import briscola.utils.Math
 import kotlin.random.Random
 

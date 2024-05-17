@@ -16,6 +16,12 @@ import javafx.stage.Stage
 import java.net.URL
 import java.util.*
 
+/**
+ * The view that represents the match.
+ * @param stage the stage where the view is shown
+ * @param playerName the name of the player
+ * @constructor creates a new match view
+ */
 class MatchView(private val stage: Stage, private val playerName: String) : Initializable {
     @FXML
     private lateinit var btnQuit: Button
@@ -37,7 +43,7 @@ class MatchView(private val stage: Stage, private val playerName: String) : Init
         imgLastCard.image = match.getLastCard()?.let { CardImage.getImageById(it.getId()) }
         imgDeck.image = CardImage.BACK.image
     }
-
+    
     private fun quitMatch() {
         SceneSwapper().swapScene(MenuView(stage), FxmlPath.MENU, stage)
         SceneSwapper.setDim(stage, WindowDim.MENU.getDim().first, WindowDim.MENU.getDim().second)

@@ -11,7 +11,11 @@ import javafx.stage.Stage
 import java.net.URL
 import java.util.*
 
-
+/**
+ * This class is the controller for the menu view.
+ * @param stage the stage to which the view is attached
+ * @constructor creates a new menu view controller
+ */
 class MenuView(private val stage: Stage) : Initializable {
     @FXML
     private lateinit var txtPlayerName: TextField
