@@ -5,7 +5,7 @@ import javafx.scene.image.Image
 /**
  * Enum containing all the possible cards.
  */
-enum class CardsImages(private val id: Int, private val path: String?) {
+enum class CardImage(private val id: Int, private val path: String?) {
     NULL(0, null),
     CLUBS_1(1, "/imgs/cards/clubs_one.png"),
     CLUBS_2(2, "/imgs/cards/clubs_two.png"),
