@@ -69,18 +69,19 @@ class TestMatch {
 
         val card1 = match.player.getHandCards()[0]
         match.playCard(match.player, card1)
+        printMatchStatus()
         assertEquals(card1, match.getPlayedCards()[0])
 
         val card2 = match.bot.getHandCards()[0]
         match.playCard(match.bot, card2)
-        println(card1)
-        println(card2)
-        println(match.getPlayedCards())
-        println(match.player.getGainedCards())
-        println(match.bot.getGainedCards())
+        println()
+        printMatchStatus()
         if (Math.getHigherCard(card1, card2, match.getBriscolaSuit()!!) == card1) {
             assertTrue(match.player.getGainedCards().isNotEmpty())
             assertTrue(match.bot.getGainedCards().isEmpty())
+        } else {
+            assertTrue(match.player.getGainedCards().isEmpty())
+            assertTrue(match.bot.getGainedCards().isNotEmpty())
         }
         assertEquals(3, match.player.getHandCards().size)
         assertEquals(3, match.bot.getHandCards().size)
@@ -102,5 +103,11 @@ class TestMatch {
         match.player.gainCard(Card.SWORDS_9)
         match.checkWinner()
         assertEquals(Winner.DRAW, match.getWinner())
+    }
+
+    private fun printMatchStatus() {
+        println(match.getPlayedCards())
+        println(match.player)
+        println(match.bot)
     }
 }

@@ -65,7 +65,7 @@ class Match(val player: Player, val deck: MutableList<Card>) {
      * @param shuffleDeck true if the deck should be shuffled, false otherwise, default is true
      * @param startingPlayerOption the starting player option, default is random
      */
-    fun prepareMatch(shuffleDeck: Boolean = true, startingPlayerOption: StartingPlayerOption = StartingPlayerOption.RANDOM) {
+    fun prepareMatch(shuffleDeck: Boolean = true, startingPlayerOption: StartingPlayerOption = StartingPlayerOption.PLAYER) {
         if (shuffleDeck) deck.shuffle()
 
         lastCard = deck.removeAt(0)
@@ -87,15 +87,12 @@ class Match(val player: Player, val deck: MutableList<Card>) {
      * Let the player play a card
      * @param player the player that plays the card
      * @param card the card played by the player
-     * @throws IllegalStateException if the player doesn't have the card in hand
-     * @throws IllegalStateException if the match ended in a draw
-     * @throws IllegalStateException if the player tries to play a card when it's not his turn
      */
     fun playCard(player: Player, card: Card) {
         if (!player.hasCardInHand(card)) {
             return
         }
-        if (playedCards.size == 1) {
+        if (playedCards.size == 0) {
             cardPlayedFirst(player, card)
         } else {
             cardPlayedSecond(player, card)
@@ -138,8 +135,8 @@ class Match(val player: Player, val deck: MutableList<Card>) {
         }
     }
 
-    private fun switchTurn(playerHasToPlay: Boolean? = null) {
-        playerTurn = playerHasToPlay ?: !playerTurn
+    override fun toString(): String {
+        return "Match(player=$player, playerTurn=$playerTurn, winner=$winner, lastCard=$lastCard, briscolaSuit=$briscolaSuit, playedCards=$playedCards)"
     }
 
     private fun playerDrawCard(player: Player) {
@@ -153,29 +150,28 @@ class Match(val player: Player, val deck: MutableList<Card>) {
         player.drawCard(deck.removeAt(0))
     }
 
-    private fun cardPlayedFirst(player: Player, card: Card) {
-        player.playCard(card)
+    private fun cardPlayedFirst(currentPlayer: Player, card: Card) {
+        currentPlayer.playCard(card)
         playedCards.add(card)
+        playerTurn = !playerTurn
     }
 
-    private fun cardPlayedSecond(player: Player, card: Card) {
-        player.playCard(card)
+    private fun cardPlayedSecond(currentPlayer: Player, card: Card) {
+        currentPlayer.playCard(card)
         playedCards.add(card)
         val higherCard = Math.getHigherCard(playedCards[0], playedCards[1], briscolaSuit!!)
-        if (higherCard == playedCards[1]) {
-            if (playerTurn) {
-                switchTurn(true)
-                playerDrawCard(player)
-                playerDrawCard(bot)
-                player.gainCard(playedCards[0])
-                player.gainCard(playedCards[1])
-            } else {
-                switchTurn(false)
-                playerDrawCard(bot)
-                playerDrawCard(player)
-                bot.gainCard(playedCards[0])
-                bot.gainCard(playedCards[1])
-            }
+        if ((higherCard == playedCards[1] && playerTurn) || (higherCard == playedCards[0] && !playerTurn)) {
+            playerTurn = true
+            playerDrawCard(player)
+            playerDrawCard(bot)
+            player.gainCard(playedCards[0])
+            player.gainCard(playedCards[1])
+        } else {
+            playerTurn = false
+            playerDrawCard(bot)
+            playerDrawCard(player)
+            bot.gainCard(playedCards[0])
+            bot.gainCard(playedCards[1])
         }
 
         playedCards.clear()
