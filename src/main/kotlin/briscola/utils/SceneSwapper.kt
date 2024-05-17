@@ -27,6 +27,7 @@ class SceneSwapper {
             val home = Scene(root)
             stage.scene = home
             stage.show()
+            packStage(stage)
             // setUpStage(stage);
         } catch (e: IOException) {
             throw RuntimeException(e)
@@ -42,7 +43,7 @@ class SceneSwapper {
          * @param stage the stage to be set up
          */
         fun setUpStage(stage: Stage) {
-            stage.isResizable = true
+            stage.isResizable = false
             stage.title = "Intelligent Briscola"
             stage.show()
             stage.icons.add(CardImage.BACK.image)
@@ -55,6 +56,14 @@ class SceneSwapper {
         fun setDim(stage: Stage, width: Int, height: Int) {
             stage.width = width.toDouble()
             stage.height = height.toDouble()
+        }
+
+        /**
+         * Pack the stage to the size of the scene.
+         * @param stage the stage to be packed
+         */
+        fun packStage(stage: Stage) {
+            stage.sizeToScene()
         }
     }
 }

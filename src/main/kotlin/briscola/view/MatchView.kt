@@ -6,7 +6,6 @@ import briscola.model.Player
 import briscola.utils.CardImage
 import briscola.utils.FxmlPath
 import briscola.utils.SceneSwapper
-import briscola.utils.WindowDim
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
 import javafx.scene.control.Button
@@ -43,9 +42,8 @@ class MatchView(private val stage: Stage, private val playerName: String) : Init
         imgLastCard.image = match.getLastCard()?.let { CardImage.getImageById(it.getId()) }
         imgDeck.image = CardImage.BACK.image
     }
-    
+
     private fun quitMatch() {
         SceneSwapper().swapScene(MenuView(stage), FxmlPath.MENU, stage)
-        SceneSwapper.setDim(stage, WindowDim.MENU.getDim().first, WindowDim.MENU.getDim().second)
     }
 }
