@@ -50,7 +50,6 @@ class Player(val name: String,
      * @throws IllegalStateException If the player's hand is full.
      */
     fun drawCard(card: Card) {
-        println(handCards.size)
         if (handCards.size >= 3) {
             throw IllegalStateException("Hand is full")
         }

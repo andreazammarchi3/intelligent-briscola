@@ -1,5 +1,5 @@
-/* Style class for border pane with id "BorderedImage" */
-#BorderedImage {
+/* Style class for border pane with id "BorderedPane" */
+#BorderedPane {
     -fx-border-color: #000000;
     -fx-border-width: 2;
     -fx-border-radius: 10;
