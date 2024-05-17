@@ -41,6 +41,9 @@ class MatchView(private val stage: Stage, private val playerName: String) : Init
         btnQuit.setOnAction { quitMatch() }
         imgLastCard.image = match.getLastCard()?.let { CardImage.getImageById(it.getId()) }
         imgDeck.image = CardImage.BACK.image
+
+
+
     }
 
     private fun quitMatch() {
