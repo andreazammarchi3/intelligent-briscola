@@ -20,7 +20,6 @@ class SceneSwapper {
      * @param stage The stage containing the new scene.
      */
     fun swapScene(controller: Initializable, fxmlPath: FxmlPath, stage: Stage) {
-        println(PATH + fxmlPath.path)
         val loader = FXMLLoader(Objects.requireNonNull(javaClass.getResource(PATH + fxmlPath.path)))
         loader.setController(controller)
         try {
@@ -46,7 +45,7 @@ class SceneSwapper {
             stage.isResizable = true
             stage.title = "Intelligent Briscola"
             stage.show()
-            stage.icons.add(CardsImages.BACK.image)
+            stage.icons.add(CardImage.BACK.image)
         }
 
         /**
