@@ -5,6 +5,13 @@
     -fx-border-radius: 10;
 }
 
+/* Style class for selected border pane with id "SelectedBorderedPane" */
+#SelectedBorderedPane {
+    -fx-border-color: #B0FE76;
+    -fx-border-width: 2;
+    -fx-border-radius: 10;
+}
+
 /* Table background image */
 #TableBackground {
     -fx-background-image: url('../imgs/table_background.jpg');

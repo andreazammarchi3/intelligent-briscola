@@ -11,9 +11,8 @@ import javafx.fxml.Initializable
 import javafx.scene.control.Button
 import javafx.scene.control.Label
 import javafx.scene.image.ImageView
+import javafx.scene.input.MouseEvent
 import javafx.scene.layout.BorderPane
-import javafx.scene.layout.StackPane
-import javafx.scene.shape.Rectangle
 import javafx.stage.Stage
 import java.net.URL
 import java.util.*
@@ -46,6 +45,10 @@ class MatchView(private val stage: Stage, private val playerName: String) : Init
     private lateinit var imgBotHandCard2: ImageView
     @FXML
     private lateinit var imgBotHandCard3: ImageView
+    @FXML
+    private lateinit var imgBotPlayedCard: ImageView
+    @FXML
+    private lateinit var imgPlayerPlayedCard: ImageView
 
     private lateinit var match: Match
 
@@ -54,6 +57,16 @@ class MatchView(private val stage: Stage, private val playerName: String) : Init
         match.prepareMatch()
         lblBriscola.text = "Briscola: ${match.getBriscolaSuit().toString()}"
         btnQuit.setOnAction { quitMatch() }
+
+        setUpImages()
+    }
+
+    private fun quitMatch() {
+        SceneSwapper().swapScene(MenuView(stage), FxmlPath.MENU, stage)
+    }
+
+    private fun setUpImages() {
+        // set up last card image and deck image
         imgLastCard.image = match.getLastCard()?.let { CardImage.getImageById(it.getId()) }
         imgDeck.image = CardImage.BACK.image
 
@@ -66,9 +79,29 @@ class MatchView(private val stage: Stage, private val playerName: String) : Init
         imgBotHandCard1.image = CardImage.BACK.image
         imgBotHandCard2.image = CardImage.BACK.image
         imgBotHandCard3.image = CardImage.BACK.image
+
+        highlightCardTurn(match.isPlayerTurn())
     }
 
-    private fun quitMatch() {
-        SceneSwapper().swapScene(MenuView(stage), FxmlPath.MENU, stage)
+    fun highlightCardTurn(playerTurn: Boolean) {
+        if (match.isPlayerTurn()) {
+            imgBotPlayedCard.parent.id = "BorderedPane"
+            imgPlayerPlayedCard.parent.id = "SelectedBorderedPane"
+        } else {
+            imgBotPlayedCard.parent.id = "SelectedBorderedPane"
+            imgPlayerPlayedCard.parent.id = "BorderedPane"
+        }
+    }
+
+    @FXML
+    private fun onMouseEntered(event: MouseEvent) {
+        val source = event.source as BorderPane
+        source.id = "SelectedBorderedPane"
+    }
+
+    @FXML
+    private fun onMouseExited(event: MouseEvent) {
+        val source = event.source as BorderPane
+        source.id = "BorderedPane"
     }
 }
