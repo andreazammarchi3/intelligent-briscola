@@ -84,7 +84,7 @@ class MatchView(private val stage: Stage, private val playerName: String) : Init
     }
 
     fun highlightCardTurn(playerTurn: Boolean) {
-        if (match.isPlayerTurn()) {
+        if (playerTurn) {
             imgBotPlayedCard.parent.id = "BorderedPane"
             imgPlayerPlayedCard.parent.id = "SelectedBorderedPane"
         } else {
