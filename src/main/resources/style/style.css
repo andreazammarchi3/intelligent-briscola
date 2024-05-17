@@ -1,0 +1,61 @@
+/* Style class for border pane with id "BorderedImage" */
+#BorderedImage {
+    -fx-border-color: #000000;
+    -fx-border-width: 2;
+    -fx-border-radius: 10;
+}
+
+/* Table background image */
+#TableBackground {
+    -fx-background-image: url('../imgs/table_background.jpg');
+    -fx-background-size: cover;
+    -fx-border-radius: 10;
+    -fx-border-width: 2;
+}
+
+#TableColorBackground {
+    -fx-background-color: #096B2E;
+}
+
+/* A selectable card, on mouse hover, the card will be highlighted */
+#SelectableCard {
+    -fx-border-color: white;
+    -fx-border-width: 2;
+    -fx-border-radius: 10;
+}
+
+/* Title label, with a blue text-fill linear gradient  */
+#TitleLabel {
+    -fx-font-size: 32;
+    -fx-font-weight: bold;
+    -fx-font-style: italic;
+    -fx-font-family: Arial;
+    -fx-text-fill: #E09F3E;
+}
+
+/* Cool Btn style, with gradient */
+#CoolBtn {
+    -fx-background-radius: 10;
+    -fx-background-color: #8FBB99;
+    -fx-font-size: 15;
+    -fx-font-weight: bold;
+    -fx-font-family: Arial;
+}
+
+/* Title label, with a blue text-fill linear gradient  */
+#NormalLabel {
+    -fx-font-size: 18;
+    -fx-font-weight: normal;
+    -fx-font-style: normal;
+    -fx-font-family: Arial;
+    -fx-text-fill: #B0FE76;
+}
+
+/* Title label, with a blue text-fill linear gradient  */
+#BoldLabel {
+    -fx-font-size: 18;
+    -fx-font-weight: bold;
+    -fx-font-style: normal;
+    -fx-font-family: Arial;
+    -fx-text-fill: #B0FE76;
+}
