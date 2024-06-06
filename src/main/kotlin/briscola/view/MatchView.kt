@@ -7,6 +7,8 @@ import briscola.model.Winner
 import briscola.utils.CardImage
 import briscola.utils.FxmlPath
 import briscola.utils.SceneSwapper
+import javafx.animation.KeyFrame
+import javafx.animation.Timeline
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
 import javafx.scene.control.Button
@@ -15,6 +17,7 @@ import javafx.scene.image.ImageView
 import javafx.scene.input.MouseEvent
 import javafx.scene.layout.BorderPane
 import javafx.stage.Stage
+import javafx.util.Duration
 import java.net.URL
 import java.util.*
 
@@ -58,6 +61,8 @@ class MatchView(private val stage: Stage, private val playerName: String) : Init
     private lateinit var lblPlayerGainedCards: Label
 
     private lateinit var match: Match
+
+    private val animationDuration = Duration.seconds(2.0)
 
     override fun initialize(url: URL?, resourceBundle: ResourceBundle?) {
         match = Match(Player(playerName), Card.entries.toMutableList())
@@ -115,24 +120,44 @@ class MatchView(private val stage: Stage, private val playerName: String) : Init
         lblPlayerGainedCards.text = "Player gained cards: ${match.player.getGainedCards().size}"
     }
 
-    private fun cardPlayed(player: Player, card: Card) {
-        match.playCard(player, card)
-
+    private fun updateCardPlayed(player: Player, card: Card, cardImageView: ImageView? = null) {
         if (player == match.player) {
             imgPlayerPlayedCard.image = CardImage.getImageById(card.getId())
+            cardImageView?.image = null
         } else {
             imgBotPlayedCard.image = CardImage.getImageById(card.getId())
+            cardImageView?.image = null
         }
+    }
 
-        updateImages()
-        updateLabels()
-
-        if (match.getWinner() != null) {
-            SceneSwapper().swapScene(MenuView(stage), FxmlPath.MENU, stage)
-        } else {
+    private fun cardPlayed(player: Player, card: Card, cardImageView: ImageView? = null) {
+        match.playCard(player, card)
+        if (match.getPlayedCards().size % 2 == 1) {
+            updateCardPlayed(player, card, cardImageView)
+            highlightCardTurn(match.isPlayerTurn())
             if (!match.isPlayerTurn()) {
                 botTurn()
             }
+        } else {
+            updateCardPlayed(player, card, cardImageView)
+
+            // if second card is played, wait 2 seconds and update the view
+            val timeline = Timeline(KeyFrame(animationDuration))
+            timeline.cycleCount = 1
+            timeline.setOnFinished {
+                imgPlayerPlayedCard.image = null
+                imgBotPlayedCard.image = null
+                updateImages()
+                updateLabels()
+                if (match.getWinner() != null) {
+                    SceneSwapper().swapScene(MenuView(stage), FxmlPath.MENU, stage)
+                } else {
+                    if (!match.isPlayerTurn()) {
+                        botTurn()
+                    }
+                }
+            }
+            timeline.play()
         }
     }
 
@@ -152,7 +177,7 @@ class MatchView(private val stage: Stage, private val playerName: String) : Init
             else -> throw IllegalArgumentException("Invalid card image view")
         }
         if (match.player.getHandCards().contains(card)) {
-            cardPlayed(match.player, card)
+            cardPlayed(match.player, card, cardImageView)
         }
     }
 
