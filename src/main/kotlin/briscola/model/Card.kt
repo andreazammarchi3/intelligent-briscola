@@ -81,20 +81,6 @@ enum class Card(private val id: Int, private val suit: Suit, private val rank: I
         return value
     }
 
-    /**
-     * Get the card by its id.
-     * @param id the id of the card.
-     * @return the card with the given id.
-     */
-    fun getCardById(id: Int): Card {
-        for (card in entries) {
-            if (card.id == id) {
-                return card
-            }
-        }
-        throw IllegalArgumentException("No card with id $id")
-    }
-
     override fun toString(): String {
         return when (rank) {
             1 -> "Ace of $suit"
@@ -102,6 +88,23 @@ enum class Card(private val id: Int, private val suit: Suit, private val rank: I
             9 -> "Horse of $suit"
             10 -> "King of $suit"
             else -> "$rank of $suit"
+        }
+    }
+
+    companion object {
+        /**
+         * Get the card with the given id.
+         * @param id the id of the card.
+         * @return the card with the given id.
+         * @throws IllegalArgumentException if no card with the given id is found.
+         */
+        fun getCardById(id: Int): Card {
+            for (card in entries) {
+                if (card.id == id) {
+                    return card
+                }
+            }
+            throw IllegalArgumentException("No card with id $id")
         }
     }
 }

@@ -96,6 +96,11 @@
                            <children>
                               <BorderPane id="BorderedPane" prefHeight="200.0" prefWidth="200.0" stylesheets="@../style/style.css">
                                  <center>
+                                    <ImageView fx:id="imgBotHandCard0" fitHeight="200.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
+                                 </center>
+                              </BorderPane>
+                              <BorderPane id="BorderedPane" prefHeight="200.0" prefWidth="200.0" stylesheets="@../style/style.css">
+                                 <center>
                                     <ImageView fx:id="imgBotHandCard1" fitHeight="200.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
                                  </center>
                               </BorderPane>
@@ -104,28 +109,23 @@
                                     <ImageView fx:id="imgBotHandCard2" fitHeight="200.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
                                  </center>
                               </BorderPane>
-                              <BorderPane id="BorderedPane" prefHeight="200.0" prefWidth="200.0" stylesheets="@../style/style.css">
-                                 <center>
-                                    <ImageView fx:id="imgBotHandCard3" fitHeight="200.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
-                                 </center>
-                              </BorderPane>
                            </children>
                         </HBox>
                         <HBox fx:id="hboxPlayerHand" alignment="CENTER" prefHeight="143.0" prefWidth="1000.0" spacing="5.0" stylesheets="@../style/style.css">
                            <children>
-                              <BorderPane id="BorderedPane" onMouseEntered="#onMouseEntered" onMouseExited="#onMouseExited" prefHeight="200.0" prefWidth="200.0" stylesheets="@../style/style.css">
+                              <BorderPane id="BorderedPane" onMouseClicked="#onCardClicked" onMouseEntered="#onMouseEntered" onMouseExited="#onMouseExited" prefHeight="200.0" prefWidth="200.0" stylesheets="@../style/style.css">
+                                 <center>
+                                    <ImageView fx:id="imgPlayerHandCard0" fitHeight="200.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
+                                 </center>
+                              </BorderPane>
+                              <BorderPane id="BorderedPane" onMouseClicked="#onCardClicked" onMouseEntered="#onMouseEntered" onMouseExited="#onMouseExited" prefHeight="200.0" prefWidth="200.0" stylesheets="@../style/style.css">
                                  <center>
                                     <ImageView fx:id="imgPlayerHandCard1" fitHeight="200.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
                                  </center>
                               </BorderPane>
-                              <BorderPane id="BorderedPane" onMouseEntered="#onMouseEntered" onMouseExited="#onMouseExited" prefHeight="200.0" prefWidth="200.0" stylesheets="@../style/style.css">
+                              <BorderPane id="BorderedPane" onMouseClicked="#onCardClicked" onMouseEntered="#onMouseEntered" onMouseExited="#onMouseExited" prefHeight="200.0" prefWidth="200.0" stylesheets="@../style/style.css">
                                  <center>
                                     <ImageView fx:id="imgPlayerHandCard2" fitHeight="200.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
-                                 </center>
-                              </BorderPane>
-                              <BorderPane id="BorderedPane" onMouseEntered="#onMouseEntered" onMouseExited="#onMouseExited" prefHeight="200.0" prefWidth="200.0" stylesheets="@../style/style.css">
-                                 <center>
-                                    <ImageView fx:id="imgPlayerHandCard3" fitHeight="200.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
                                  </center>
                               </BorderPane>
                            </children>

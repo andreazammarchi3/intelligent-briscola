@@ -34,17 +34,17 @@ class MatchView(private val stage: Stage, private val playerName: String) : Init
     @FXML
     private lateinit var imgDeck: ImageView
     @FXML
+    private lateinit var imgPlayerHandCard0: ImageView
+    @FXML
     private lateinit var imgPlayerHandCard1: ImageView
     @FXML
     private lateinit var imgPlayerHandCard2: ImageView
     @FXML
-    private lateinit var imgPlayerHandCard3: ImageView
+    private lateinit var imgBotHandCard0: ImageView
     @FXML
     private lateinit var imgBotHandCard1: ImageView
     @FXML
     private lateinit var imgBotHandCard2: ImageView
-    @FXML
-    private lateinit var imgBotHandCard3: ImageView
     @FXML
     private lateinit var imgBotPlayedCard: ImageView
     @FXML
@@ -71,19 +71,19 @@ class MatchView(private val stage: Stage, private val playerName: String) : Init
         imgDeck.image = CardImage.BACK.image
 
         // set up hand card images of player
-        imgPlayerHandCard1.image = CardImage.getImageById(match.player.getHandCards()[0].getId())
-        imgPlayerHandCard2.image = CardImage.getImageById(match.player.getHandCards()[1].getId())
-        imgPlayerHandCard3.image = CardImage.getImageById(match.player.getHandCards()[2].getId())
+        imgPlayerHandCard0.image = CardImage.getImageById(match.player.getHandCards()[0].getId())
+        imgPlayerHandCard1.image = CardImage.getImageById(match.player.getHandCards()[1].getId())
+        imgPlayerHandCard2.image = CardImage.getImageById(match.player.getHandCards()[2].getId())
 
         // set up hand card images of bot
+        imgBotHandCard0.image = CardImage.BACK.image
         imgBotHandCard1.image = CardImage.BACK.image
         imgBotHandCard2.image = CardImage.BACK.image
-        imgBotHandCard3.image = CardImage.BACK.image
 
         highlightCardTurn(match.isPlayerTurn())
     }
 
-    fun highlightCardTurn(playerTurn: Boolean) {
+    private fun highlightCardTurn(playerTurn: Boolean) {
         if (playerTurn) {
             imgBotPlayedCard.parent.id = "BorderedPane"
             imgPlayerPlayedCard.parent.id = "SelectedBorderedPane"
@@ -94,13 +94,35 @@ class MatchView(private val stage: Stage, private val playerName: String) : Init
     }
 
     @FXML
+    private fun onCardClicked(event: MouseEvent) {
+        if (!match.isPlayerTurn()) return
+        val pane = event.source as BorderPane
+        val cardImageView = pane.children[0] as ImageView
+        val card = when (cardImageView) {
+            imgPlayerHandCard0 -> match.player.getHandCards()[0]
+            imgPlayerHandCard1 -> match.player.getHandCards()[1]
+            imgPlayerHandCard2 -> match.player.getHandCards()[2]
+            else -> throw IllegalArgumentException("Invalid card image view")
+        }
+        if (match.player.getHandCards().contains(card)) {
+            match.playCard(match.player, card)
+            imgPlayerPlayedCard.image = CardImage.getImageById(card.getId())
+            highlightCardTurn(match.isPlayerTurn())
+            cardImageView.image = null
+            pane.id = "BorderedPane"
+        }
+    }
+
+    @FXML
     private fun onMouseEntered(event: MouseEvent) {
+        if (!match.isPlayerTurn()) return
         val source = event.source as BorderPane
         source.id = "SelectedBorderedPane"
     }
 
     @FXML
     private fun onMouseExited(event: MouseEvent) {
+        if (!match.isPlayerTurn()) return
         val source = event.source as BorderPane
         source.id = "BorderedPane"
     }
