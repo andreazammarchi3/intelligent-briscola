@@ -37,21 +37,30 @@
             <center>
                 <HBox alignment="CENTER" spacing="50.0" BorderPane.alignment="CENTER">
                     <children>
-                        <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
+                        <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="20.0">
                             <children>
-                        <BorderPane id="BorderedPane" stylesheets="@../style/style.css">
-                           <center>
-                                      <ImageView fx:id="imgDeck" fitHeight="200.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" />
-                           </center>
+                        <VBox alignment="CENTER">
                            <VBox.margin>
                               <Insets top="100.0" />
                            </VBox.margin>
-                        </BorderPane>
-                                <Label id="NormalLabel" text="Deck" textFill="WHITE">
-                           <font>
-                              <Font size="18.0" />
-                           </font></Label>
-                        <Label />
+                           <children>
+                              <BorderPane id="BorderedPane" stylesheets="@../style/style.css">
+                                 <center>
+                                            <ImageView fx:id="imgDeck" fitHeight="200.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" />
+                                 </center>
+                              </BorderPane>
+                                      <Label id="NormalLabel" text="Deck" textFill="WHITE">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label id="NormalLabel" fx:id="lblDeckCardsLeft" text="Card(s) left: N" textFill="WHITE">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
                         <VBox alignment="CENTER">
                            <children>
                               <BorderPane id="BorderedPane" stylesheets="@../style/style.css">
@@ -73,7 +82,7 @@
                         </VBox>
                             </children>
                         </VBox>
-                  <VBox alignment="TOP_CENTER" spacing="40.0">
+                  <VBox alignment="TOP_CENTER" spacing="60.0">
                      <children>
                         <BorderPane id="BorderedPane" stylesheets="@../style/style.css">
                            <center>
@@ -92,44 +101,66 @@
                   </VBox>
                         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="200.0">
                             <children>
-                        <HBox alignment="CENTER" prefHeight="73.0" prefWidth="1000.0" spacing="5.0" stylesheets="@../style/style.css" fx:id="xboxBotHand">
-                           <children>
-                              <BorderPane id="BorderedPane" prefHeight="200.0" prefWidth="200.0" stylesheets="@../style/style.css">
-                                 <center>
-                                    <ImageView fx:id="imgBotHandCard0" fitHeight="200.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
-                                 </center>
-                              </BorderPane>
-                              <BorderPane id="BorderedPane" prefHeight="200.0" prefWidth="200.0" stylesheets="@../style/style.css">
-                                 <center>
-                                    <ImageView fx:id="imgBotHandCard1" fitHeight="200.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
-                                 </center>
-                              </BorderPane>
-                              <BorderPane id="BorderedPane" prefHeight="200.0" prefWidth="200.0" stylesheets="@../style/style.css">
-                                 <center>
-                                    <ImageView fx:id="imgBotHandCard2" fitHeight="200.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
-                                 </center>
-                              </BorderPane>
-                           </children>
-                        </HBox>
-                        <HBox fx:id="hboxPlayerHand" alignment="CENTER" prefHeight="143.0" prefWidth="1000.0" spacing="5.0" stylesheets="@../style/style.css">
-                           <children>
-                              <BorderPane id="BorderedPane" onMouseClicked="#onCardClicked" onMouseEntered="#onMouseEntered" onMouseExited="#onMouseExited" prefHeight="200.0" prefWidth="200.0" stylesheets="@../style/style.css">
-                                 <center>
-                                    <ImageView fx:id="imgPlayerHandCard0" fitHeight="200.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
-                                 </center>
-                              </BorderPane>
-                              <BorderPane id="BorderedPane" onMouseClicked="#onCardClicked" onMouseEntered="#onMouseEntered" onMouseExited="#onMouseExited" prefHeight="200.0" prefWidth="200.0" stylesheets="@../style/style.css">
-                                 <center>
-                                    <ImageView fx:id="imgPlayerHandCard1" fitHeight="200.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
-                                 </center>
-                              </BorderPane>
-                              <BorderPane id="BorderedPane" onMouseClicked="#onCardClicked" onMouseEntered="#onMouseEntered" onMouseExited="#onMouseExited" prefHeight="200.0" prefWidth="200.0" stylesheets="@../style/style.css">
-                                 <center>
-                                    <ImageView fx:id="imgPlayerHandCard2" fitHeight="200.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
-                                 </center>
-                              </BorderPane>
-                           </children>
-                        </HBox>
+                        <BorderPane>
+                           <center>
+                              <HBox alignment="CENTER" prefHeight="73.0" prefWidth="1000.0" spacing="5.0" stylesheets="@../style/style.css" fx:id="xboxBotHand">
+                                 <children>
+                                    <BorderPane id="BorderedPane" prefHeight="200.0" prefWidth="200.0" stylesheets="@../style/style.css">
+                                       <center>
+                                          <ImageView fx:id="imgBotHandCard0" fitHeight="200.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
+                                       </center>
+                                    </BorderPane>
+                                    <BorderPane id="BorderedPane" prefHeight="200.0" prefWidth="200.0" stylesheets="@../style/style.css">
+                                       <center>
+                                          <ImageView fx:id="imgBotHandCard1" fitHeight="200.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
+                                       </center>
+                                    </BorderPane>
+                                    <BorderPane id="BorderedPane" prefHeight="200.0" prefWidth="200.0" stylesheets="@../style/style.css">
+                                       <center>
+                                          <ImageView fx:id="imgBotHandCard2" fitHeight="200.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
+                                       </center>
+                                    </BorderPane>
+                                 </children>
+                              </HBox>
+                           </center>
+                           <bottom>
+                              <Label id="NormalLabel" fx:id="lblBotGainedCards" text="Bot gained cards: 0" textFill="WHITE" BorderPane.alignment="CENTER">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                           </bottom>
+                        </BorderPane>
+                        <BorderPane>
+                           <center>
+                              <HBox fx:id="hboxPlayerHand" alignment="CENTER" prefHeight="143.0" prefWidth="1000.0" spacing="5.0" stylesheets="@../style/style.css">
+                                 <children>
+                                    <BorderPane id="BorderedPane" onMouseClicked="#onCardClicked" onMouseEntered="#onMouseEntered" onMouseExited="#onMouseExited" prefHeight="200.0" prefWidth="200.0" stylesheets="@../style/style.css">
+                                       <center>
+                                          <ImageView fx:id="imgPlayerHandCard0" fitHeight="200.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
+                                       </center>
+                                    </BorderPane>
+                                    <BorderPane id="BorderedPane" onMouseClicked="#onCardClicked" onMouseEntered="#onMouseEntered" onMouseExited="#onMouseExited" prefHeight="200.0" prefWidth="200.0" stylesheets="@../style/style.css">
+                                       <center>
+                                          <ImageView fx:id="imgPlayerHandCard1" fitHeight="200.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
+                                       </center>
+                                    </BorderPane>
+                                    <BorderPane id="BorderedPane" onMouseClicked="#onCardClicked" onMouseEntered="#onMouseEntered" onMouseExited="#onMouseExited" prefHeight="200.0" prefWidth="200.0" stylesheets="@../style/style.css">
+                                       <center>
+                                          <ImageView fx:id="imgPlayerHandCard2" fitHeight="200.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER" />
+                                       </center>
+                                    </BorderPane>
+                                 </children>
+                              </HBox>
+                           </center>
+                           <top>
+                              <Label id="NormalLabel" fx:id="lblPlayerGainedCards" text="Player gained cards: 0" textFill="WHITE" BorderPane.alignment="CENTER">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                           </top>
+                        </BorderPane>
                             </children>
                         </VBox>
                     </children>

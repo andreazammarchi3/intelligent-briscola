@@ -3,6 +3,7 @@ package briscola.view
 import briscola.model.Card
 import briscola.model.Match
 import briscola.model.Player
+import briscola.model.Winner
 import briscola.utils.CardImage
 import briscola.utils.FxmlPath
 import briscola.utils.SceneSwapper
@@ -49,6 +50,12 @@ class MatchView(private val stage: Stage, private val playerName: String) : Init
     private lateinit var imgBotPlayedCard: ImageView
     @FXML
     private lateinit var imgPlayerPlayedCard: ImageView
+    @FXML
+    private lateinit var lblDeckCardsLeft: Label
+    @FXML
+    private lateinit var lblBotGainedCards: Label
+    @FXML
+    private lateinit var lblPlayerGainedCards: Label
 
     private lateinit var match: Match
 
@@ -58,28 +65,37 @@ class MatchView(private val stage: Stage, private val playerName: String) : Init
         lblBriscola.text = "Briscola: ${match.getBriscolaSuit().toString()}"
         btnQuit.setOnAction { quitMatch() }
 
-        setUpImages()
+        updateImages()
+
+        updateLabels()
+
+        if (!match.isPlayerTurn()) {
+            botTurn()
+        }
     }
 
     private fun quitMatch() {
         SceneSwapper().swapScene(MenuView(stage), FxmlPath.MENU, stage)
     }
 
-    private fun setUpImages() {
+    private fun updateImages() {
         // set up last card image and deck image
         imgLastCard.image = match.getLastCard()?.let { CardImage.getImageById(it.getId()) }
         imgDeck.image = CardImage.BACK.image
 
         // set up hand card images of player
-        imgPlayerHandCard0.image = CardImage.getImageById(match.player.getHandCards()[0].getId())
-        imgPlayerHandCard1.image = CardImage.getImageById(match.player.getHandCards()[1].getId())
-        imgPlayerHandCard2.image = CardImage.getImageById(match.player.getHandCards()[2].getId())
+        val playerHandSize = match.player.getHandCards().size
+        imgPlayerHandCard0.image = if (playerHandSize > 0) CardImage.getImageById(match.player.getHandCards()[0].getId()) else null
+        imgPlayerHandCard1.image = if (playerHandSize > 1) CardImage.getImageById(match.player.getHandCards()[1].getId()) else null
+        imgPlayerHandCard2.image = if (playerHandSize > 2) CardImage.getImageById(match.player.getHandCards()[2].getId()) else null
 
         // set up hand card images of bot
-        imgBotHandCard0.image = CardImage.BACK.image
-        imgBotHandCard1.image = CardImage.BACK.image
-        imgBotHandCard2.image = CardImage.BACK.image
+        val botHandSize = match.bot.getHandCards().size
+        imgBotHandCard0.image = if (botHandSize > 0) CardImage.BACK.image else null
+        imgBotHandCard1.image = if (botHandSize > 1) CardImage.BACK.image else null
+        imgBotHandCard2.image = if (botHandSize > 2) CardImage.BACK.image else null
 
+        // set up played card images
         highlightCardTurn(match.isPlayerTurn())
     }
 
@@ -91,6 +107,37 @@ class MatchView(private val stage: Stage, private val playerName: String) : Init
             imgBotPlayedCard.parent.id = "SelectedBorderedPane"
             imgPlayerPlayedCard.parent.id = "BorderedPane"
         }
+    }
+
+    private fun updateLabels() {
+        lblDeckCardsLeft.text = "Card(s) left: ${match.deck.size}"
+        lblBotGainedCards.text = "Bot gained cards: ${match.bot.getGainedCards().size}"
+        lblPlayerGainedCards.text = "Player gained cards: ${match.player.getGainedCards().size}"
+    }
+
+    private fun cardPlayed(player: Player, card: Card) {
+        match.playCard(player, card)
+
+        if (player == match.player) {
+            imgPlayerPlayedCard.image = CardImage.getImageById(card.getId())
+        } else {
+            imgBotPlayedCard.image = CardImage.getImageById(card.getId())
+        }
+
+        updateImages()
+        updateLabels()
+
+        if (match.getWinner() != null) {
+            SceneSwapper().swapScene(MenuView(stage), FxmlPath.MENU, stage)
+        } else {
+            if (!match.isPlayerTurn()) {
+                botTurn()
+            }
+        }
+    }
+
+    private fun botTurn() {
+        cardPlayed(match.bot, match.bot.playCard())
     }
 
     @FXML
@@ -105,11 +152,7 @@ class MatchView(private val stage: Stage, private val playerName: String) : Init
             else -> throw IllegalArgumentException("Invalid card image view")
         }
         if (match.player.getHandCards().contains(card)) {
-            match.playCard(match.player, card)
-            imgPlayerPlayedCard.image = CardImage.getImageById(card.getId())
-            highlightCardTurn(match.isPlayerTurn())
-            cardImageView.image = null
-            pane.id = "BorderedPane"
+            cardPlayed(match.player, card)
         }
     }
 
@@ -122,7 +165,6 @@ class MatchView(private val stage: Stage, private val playerName: String) : Init
 
     @FXML
     private fun onMouseExited(event: MouseEvent) {
-        if (!match.isPlayerTurn()) return
         val source = event.source as BorderPane
         source.id = "BorderedPane"
     }

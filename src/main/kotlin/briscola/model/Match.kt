@@ -20,7 +20,7 @@ class Match(val player: Player, val deck: MutableList<Card>) {
     private var briscolaSuit: Suit? = null
     private val playedCards = mutableListOf<Card>()
 
-    val bot = Player("Bot")
+    val bot = Bot()
 
     /**
      * Check if it's player's turn

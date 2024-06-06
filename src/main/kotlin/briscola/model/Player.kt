@@ -5,7 +5,7 @@ package briscola.model
  * @param name The name of the player.
  * @param isBot Whether the player is a bot or not.
  */
-class Player(val name: String,
+open class Player(val name: String,
              val isBot: Boolean = false,
              private val handCards: MutableList<Card> = mutableListOf(),
              private val gainedCards: MutableList<Card> = mutableListOf()) {
