@@ -3,7 +3,6 @@ package briscola.view
 import briscola.model.Card
 import briscola.model.Match
 import briscola.model.Player
-import briscola.model.Winner
 import briscola.utils.CardImage
 import briscola.utils.FxmlPath
 import briscola.utils.SceneSwapper
@@ -150,7 +149,7 @@ class MatchView(private val stage: Stage, private val playerName: String) : Init
                 updateImages()
                 updateLabels()
                 if (match.getWinner() != null) {
-                    SceneSwapper().swapScene(MenuView(stage), FxmlPath.MENU, stage)
+                    SceneSwapper().swapScene(EndGameView(stage, match), FxmlPath.END_GAME, stage)
                 } else {
                     if (!match.isPlayerTurn()) {
                         botTurn()

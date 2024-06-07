@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane id="TableBackground" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="500.0" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <BorderPane BorderPane.alignment="CENTER">
+         <center>
+            <Label id="TitleLabel" fx:id="lblTitle" alignment="CENTER" stylesheets="@../style/style.css" text="CONGRATULATIONS!">
+               <font>
+                  <Font name="Arial Bold Italic" size="20.0" />
+               </font>
+            </Label>
+         </center>
+         <bottom>
+            <Label id="NormalLabel" fx:id="lblWin" stylesheets="@../style/style.css" text="PLAYER WIN" BorderPane.alignment="CENTER" />
+         </bottom>
+      </BorderPane>
+   </top>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+   <bottom>
+      <Button id="CoolBtn" fx:id="btnHome" mnemonicParsing="false" onMouseClicked="#goHome" stylesheets="@../style/style.css" text="Home" BorderPane.alignment="CENTER" />
+   </bottom>
+   <center>
+      <HBox alignment="CENTER" prefHeight="50.0" prefWidth="380.0" spacing="20.0" BorderPane.alignment="CENTER">
+         <children>
+            <BorderPane>
+               <center>
+                  <ListView fx:id="listPLayerCards" prefHeight="200.0" prefWidth="200.0" />
+               </center>
+               <top>
+                  <Label id="NormalLabel" fx:id="lblPLayerPoints" stylesheets="@../style/style.css" text="Player points: N" BorderPane.alignment="CENTER" />
+               </top>
+            </BorderPane>
+            <BorderPane>
+               <center>
+                  <ListView fx:id="listBotCards" prefHeight="200.0" prefWidth="200.0" />
+               </center>
+               <top>
+                  <Label id="NormalLabel" fx:id="lblBotPoints" stylesheets="@../style/style.css" text="Bot points: M" BorderPane.alignment="CENTER" />
+               </top>
+            </BorderPane>
+         </children>
+         <BorderPane.margin>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="10.0" />
+         </BorderPane.margin>
+      </HBox>
+   </center>
+</BorderPane>

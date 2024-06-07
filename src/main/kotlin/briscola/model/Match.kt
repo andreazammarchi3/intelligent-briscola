@@ -97,9 +97,6 @@ class Match(val player: Player, val deck: MutableList<Card>) {
         } else {
             cardPlayedSecond(player, card)
             checkWinner()
-            if (winner != null) {
-                println("The winner is $winner")
-            }
         }
     }
 
