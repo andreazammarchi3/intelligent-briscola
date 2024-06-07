@@ -4,6 +4,7 @@ import briscola.utils.IO
 import briscola.utils.Math
 import kotlin.random.Random
 
+
 /**
  * Represents a match between two players
  * @param player the player of the match
@@ -21,7 +22,7 @@ class Match(val player: Player, val deck: MutableList<Card>) {
     private var briscolaSuit: Suit? = null
     private val playedCards = mutableListOf<Card>()
 
-    val bot = Bot()
+    var bot = Player("Bot", isBot = true)
 
     /**
      * Check if it's player's turn
