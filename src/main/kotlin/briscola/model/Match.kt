@@ -1,5 +1,6 @@
 package briscola.model
 
+import briscola.utils.IO
 import briscola.utils.Math
 import kotlin.random.Random
 
@@ -97,6 +98,15 @@ class Match(val player: Player, val deck: MutableList<Card>) {
         } else {
             cardPlayedSecond(player, card)
             checkWinner()
+            if (winner != null) {
+                val result = when (winner) {
+                    Winner.PLAYER -> "Win"
+                    Winner.BOT -> "Loss"
+                    Winner.DRAW -> "Draw"
+                    null -> "Unknown"
+                }
+                IO.saveEndedMatch(EndedMatch(player.name, result, player.points(), bot.points()))
+            }
         }
     }
 

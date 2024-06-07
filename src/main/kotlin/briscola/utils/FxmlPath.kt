@@ -7,5 +7,6 @@ package briscola.utils
 enum class FxmlPath(val path: String) {
     MENU("Menu.fxml"),
     MATCH("Match.fxml"),
-    END_GAME("EndGame.fxml")
+    END_GAME("EndGame.fxml"),
+    SCOREBOARD("Scoreboard.fxml")
 }

@@ -18,6 +18,7 @@ repositories {
 
 dependencies {
     testImplementation(kotlin("test"))
+    implementation("com.google.code.gson:gson:2.8.9")
 }
 
 tasks.test {

@@ -16,6 +16,7 @@ import java.util.*
 /**
  * This class is the controller for the end game view.
  * @param stage the stage where the view is shown
+ * @param match the match that has just ended
  */
 class EndGameView(private val stage: Stage, private val match: Match) : Initializable {
     @FXML

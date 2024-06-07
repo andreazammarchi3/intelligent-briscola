@@ -18,13 +18,15 @@ import java.util.*
 class MenuView(private val stage: Stage) : Initializable {
     @FXML
     private lateinit var txtPlayerName: TextField
-    @FXML
-    private lateinit var btnStartMatch: Button
 
     override fun initialize(url: URL?, resourceBundle: ResourceBundle?) {
-        btnStartMatch.setOnAction { startMatch() }
+
     }
 
+/**
+     * Handles the click on the start button.
+     */
+    @FXML
     private fun startMatch() {
         val playerName = txtPlayerName.text
         if (playerName.isNotBlank() && playerName.isNotEmpty()) {
@@ -32,5 +34,13 @@ class MenuView(private val stage: Stage) : Initializable {
         } else {
             txtPlayerName.promptText = "Please enter a name"
         }
+    }
+
+    /**
+     * Handles the click on the scoreboard button.
+     */
+    @FXML
+    private fun goScoreboard() {
+        SceneSwapper().swapScene(ScoreboardView(stage), FxmlPath.SCOREBOARD, stage)
     }
 }
