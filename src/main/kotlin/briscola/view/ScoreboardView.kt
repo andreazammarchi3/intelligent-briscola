@@ -43,7 +43,7 @@ class ScoreboardView(private val stage: Stage) : Initializable {
      * Handles the click on the home button.
      */
     @FXML
-    private fun goHome(event: MouseEvent) {
+    private fun goHome() {
         SceneSwapper().swapScene(MenuView(stage), FxmlPath.MENU, stage)
     }
 }
