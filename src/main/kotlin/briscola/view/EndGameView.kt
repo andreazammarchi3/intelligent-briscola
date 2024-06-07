@@ -1,5 +1,6 @@
 package briscola.view
 
+import briscola.env.BriscolaEnvironment
 import briscola.model.Match
 import briscola.model.Winner
 import briscola.utils.FxmlPath
@@ -18,7 +19,7 @@ import java.util.*
  * @param stage the stage where the view is shown
  * @param match the match that has just ended
  */
-class EndGameView(private val stage: Stage, private val match: Match) : Initializable {
+class EndGameView(private val stage: Stage, private val match: Match, private val briscolaEnvironment: BriscolaEnvironment) : Initializable {
     @FXML
     private lateinit var lblTitle: Label
     @FXML
@@ -55,6 +56,6 @@ class EndGameView(private val stage: Stage, private val match: Match) : Initiali
      */
     @FXML
     private fun goHome(event: MouseEvent) {
-        SceneSwapper().swapScene(MenuView(stage), FxmlPath.MENU, stage)
+        SceneSwapper().swapScene(MenuView(stage, briscolaEnvironment), FxmlPath.MENU, stage)
     }
 }

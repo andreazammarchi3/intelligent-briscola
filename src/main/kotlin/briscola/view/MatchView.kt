@@ -1,5 +1,6 @@
 package briscola.view
 
+import briscola.env.BriscolaEnvironment
 import briscola.model.Card
 import briscola.model.Match
 import briscola.model.Player
@@ -27,7 +28,7 @@ import java.util.*
  * @param playerName the name of the player
  * @constructor creates a new match view
  */
-class MatchView(private val stage: Stage, private val playerName: String) : Initializable {
+class MatchView(private val stage: Stage, private val playerName: String, private val briscolaEnvironment: BriscolaEnvironment) : Initializable {
     @FXML
     private lateinit var btnQuit: Button
     @FXML
@@ -59,7 +60,7 @@ class MatchView(private val stage: Stage, private val playerName: String) : Init
     @FXML
     private lateinit var lblPlayerGainedCards: Label
 
-    private lateinit var match: Match
+    lateinit var match: Match
 
     private val animationDuration = Duration.seconds(2.0)
 
@@ -73,13 +74,12 @@ class MatchView(private val stage: Stage, private val playerName: String) : Init
 
         updateLabels()
 
-        if (!match.isPlayerTurn()) {
-            botTurn()
-        }
+        briscolaEnvironment.newMatch(this)
     }
 
     private fun quitMatch() {
-        SceneSwapper().swapScene(MenuView(stage), FxmlPath.MENU, stage)
+        SceneSwapper().swapScene(MenuView(stage, briscolaEnvironment), FxmlPath.MENU, stage)
+        briscolaEnvironment.matchEnded()
     }
 
     private fun updateImages() {
@@ -129,14 +129,11 @@ class MatchView(private val stage: Stage, private val playerName: String) : Init
         }
     }
 
-    private fun cardPlayed(player: Player, card: Card, cardImageView: ImageView? = null) {
+    fun cardPlayed(player: Player, card: Card, cardImageView: ImageView? = null) {
         match.playCard(player, card)
         if (match.getPlayedCards().size % 2 == 1) {
             updateCardPlayed(player, card, cardImageView)
             highlightCardTurn(match.isPlayerTurn())
-            if (!match.isPlayerTurn()) {
-                botTurn()
-            }
         } else {
             updateCardPlayed(player, card, cardImageView)
 
@@ -149,19 +146,12 @@ class MatchView(private val stage: Stage, private val playerName: String) : Init
                 updateImages()
                 updateLabels()
                 if (match.getWinner() != null) {
-                    SceneSwapper().swapScene(EndGameView(stage, match), FxmlPath.END_GAME, stage)
-                } else {
-                    if (!match.isPlayerTurn()) {
-                        botTurn()
-                    }
+                    SceneSwapper().swapScene(EndGameView(stage, match, briscolaEnvironment), FxmlPath.END_GAME, stage)
+                    briscolaEnvironment.matchEnded()
                 }
             }
             timeline.play()
         }
-    }
-
-    private fun botTurn() {
-        cardPlayed(match.bot, match.bot.playCard())
     }
 
     @FXML

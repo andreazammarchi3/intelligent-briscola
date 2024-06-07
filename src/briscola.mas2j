@@ -2,7 +2,7 @@ MAS briscola {
 
 	infrastructure: Centralised
 
-	environment: briscola.view.MatchView()
+	environment: briscola.env.BriscolaEnvironment
 
 	agents:
 		bot bot_agent;

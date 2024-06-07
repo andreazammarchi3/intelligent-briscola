@@ -43,7 +43,6 @@ sourceSets {
 }
 
 file("src").listFiles()?.filter { it.extension == "mas2j" }?.forEach { mas2jFile ->
-    println("Found MAS2J file: ${mas2jFile.name}")  // This will confirm whether MAS2J files are found
     task<JavaExec>("run${mas2jFile.nameWithoutExtension}") {
         group = "run"
         classpath = sourceSets.getByName("main").runtimeClasspath

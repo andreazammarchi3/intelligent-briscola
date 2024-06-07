@@ -1,5 +1,6 @@
 package briscola.view
 
+import briscola.env.BriscolaEnvironment
 import briscola.model.EndedMatch
 import briscola.utils.FxmlPath
 import briscola.utils.IO
@@ -18,7 +19,7 @@ import java.util.*
  * This class is the controller for the scoreboard view.
  * @param stage the stage where the view is shown
  */
-class ScoreboardView(private val stage: Stage) : Initializable {
+class ScoreboardView(private val stage: Stage, private val briscolaEnvironment: BriscolaEnvironment) : Initializable {
     @FXML
     private lateinit var tableScoreboard: TableView<EndedMatch>
     @FXML
@@ -44,6 +45,6 @@ class ScoreboardView(private val stage: Stage) : Initializable {
      */
     @FXML
     private fun goHome() {
-        SceneSwapper().swapScene(MenuView(stage), FxmlPath.MENU, stage)
+        SceneSwapper().swapScene(MenuView(stage, briscolaEnvironment), FxmlPath.MENU, stage)
     }
 }

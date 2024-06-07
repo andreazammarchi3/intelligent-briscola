@@ -1,5 +1,6 @@
 package briscola.view
 
+import briscola.env.BriscolaEnvironment
 import briscola.utils.FxmlPath
 import briscola.utils.SceneSwapper
 import javafx.fxml.FXML
@@ -15,7 +16,7 @@ import java.util.*
  * @param stage the stage to which the view is attached
  * @constructor creates a new menu view controller
  */
-class MenuView(private val stage: Stage) : Initializable {
+class MenuView(private val stage: Stage, private val briscolaEnvironment: BriscolaEnvironment) : Initializable {
     @FXML
     private lateinit var txtPlayerName: TextField
 
@@ -30,7 +31,7 @@ class MenuView(private val stage: Stage) : Initializable {
     private fun startMatch() {
         val playerName = txtPlayerName.text
         if (playerName.isNotBlank() && playerName.isNotEmpty()) {
-            SceneSwapper().swapScene(MatchView(stage, playerName), FxmlPath.MATCH, stage)
+            SceneSwapper().swapScene(MatchView(stage, playerName, briscolaEnvironment), FxmlPath.MATCH, stage)
         } else {
             txtPlayerName.promptText = "Please enter a name"
         }
@@ -41,6 +42,6 @@ class MenuView(private val stage: Stage) : Initializable {
      */
     @FXML
     private fun goScoreboard() {
-        SceneSwapper().swapScene(ScoreboardView(stage), FxmlPath.SCOREBOARD, stage)
+        SceneSwapper().swapScene(ScoreboardView(stage, briscolaEnvironment), FxmlPath.SCOREBOARD, stage)
     }
 }
