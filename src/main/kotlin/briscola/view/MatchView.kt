@@ -86,7 +86,7 @@ class MatchView(private val stage: Stage, private val playerName: String) : Init
     private fun updateImages() {
         // set up last card image and deck image
         imgLastCard.image = match.getLastCard()?.let { CardImage.getImageById(it.getId()) }
-        imgDeck.image = CardImage.BACK.image
+        imgDeck.image = if (match.deck.isNotEmpty()) CardImage.BACK.image else null
 
         // set up hand card images of player
         val playerHandSize = match.player.getHandCards().size
