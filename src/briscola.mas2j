@@ -1,0 +1,12 @@
+MAS briscola {
+
+	infrastructure: Centralised
+
+	environment: briscola.view.MatchView()
+
+	agents:
+		bot bot_agent;
+
+	aslSourcePath:
+		"src/main/asl";
+}
