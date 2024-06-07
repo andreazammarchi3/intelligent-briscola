@@ -15,5 +15,9 @@ class TestEndedMatch {
     }
 
     @Test
-
+    fun testEquals() {
+        val endedMatch1 = EndedMatch("player1", "Win", 61, 59)
+        val endedMatch2 = EndedMatch("player1", "Win", 61, 59)
+        assertEquals(endedMatch1, endedMatch2)
+    }
 }
