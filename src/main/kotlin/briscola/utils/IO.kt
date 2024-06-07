@@ -10,17 +10,19 @@ import java.io.FileWriter
 class IO {
     companion object {
         private const val FILE_PATH = "src/main/resources/scoreboard/endedMatches.json"
+        private const val TEST_FILE_PATH = "src/test/resources/scoreboard/endedMatches.json"
         private val gson = Gson()
 
         /**
          * Saves an EndedMatch object to a JSON file containing an array of EndedMatches.
          * @param endedMatch the match to save
          */
-        fun saveEndedMatch(endedMatch: EndedMatch) {
-            val matches = getEndedMatches().toMutableList()
+        fun saveEndedMatch(endedMatch: EndedMatch, test: Boolean = false) {
+            val matches = getEndedMatches(test).toMutableList()
             matches.add(endedMatch)
             val json = gson.toJson(matches)
-            FileWriter(FILE_PATH).use { writer ->
+            val filePath = if (test) TEST_FILE_PATH else FILE_PATH
+            FileWriter(filePath).use { writer ->
                 writer.write(json)
             }
         }
@@ -29,8 +31,8 @@ class IO {
          * Reads all EndedMatches from the JSON file.
          * @return a list of EndedMatches
          */
-        fun getEndedMatches(): List<EndedMatch> {
-            val file = File(FILE_PATH)
+        fun getEndedMatches(test: Boolean = false): List<EndedMatch> {
+            val file = File(if (test) TEST_FILE_PATH else FILE_PATH)
             if (!file.exists()) {
                 file.parentFile.mkdirs()
                 file.createNewFile()
