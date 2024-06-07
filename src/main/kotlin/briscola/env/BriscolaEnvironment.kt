@@ -1,4 +1,4 @@
-package briscola
+package briscola.env
 
 import briscola.view.MatchView
 import jason.asSyntax.Literal
@@ -8,7 +8,7 @@ import java.util.stream.Collectors
 import java.util.stream.Stream
 
 
-class Env(private var matchView: MatchView): Environment() {
+class BriscolaEnvironment(private var matchView: MatchView): Environment() {
     private val playCard0 : Literal = Literal.parseLiteral("play_card(0)")
     private val playCard1 : Literal = Literal.parseLiteral("play_card(1)")
     private val playCard2 : Literal = Literal.parseLiteral("play_card(2)")
