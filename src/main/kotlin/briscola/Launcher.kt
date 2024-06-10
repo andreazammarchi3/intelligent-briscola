@@ -4,10 +4,11 @@ import briscola.env.BriscolaEnvironment
 import briscola.utils.FxmlPath
 import briscola.utils.SceneSwapper
 import briscola.view.MenuView
+import jason.infra.centralised.RunCentralisedMAS
 import javafx.application.Application
 import javafx.stage.Stage
 import java.io.File
-import jason.infra.centralised.RunCentralisedMAS
+
 
 class Launcher: Application() {
     private lateinit var env: BriscolaEnvironment

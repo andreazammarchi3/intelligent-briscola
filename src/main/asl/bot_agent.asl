@@ -1,18 +1,23 @@
 // bot_agent.asl
 
 !start.
+!turn(false).
 
 // Initial goals
 +!start <-
     .print("Bot started. Listening for game updates.").
 
-// Reacting to turn information
-+turn(myName, true) <-
++!turn(false) <-
+    .print("Waiting for my turn.").
+
+-!turn(false) <-
     .print("It's my turn.");
     !decide_action.
 
-+turn(myName, false) <-
-    .print("Waiting for my turn.").
++!turn(true) <-
+    .print("It's my turn.");
+    !decide_action.
+
 
 // Decision making when it's bot's turn
 +!decide_action <-
@@ -26,23 +31,22 @@
     .random(0, 2, N);
     .nth([Card1, Card2, Card3], N, Card);
     .print("Choosing card: ", Card);
-    play(Card).
+    !play(Card).
 
 // Rules for playing a card
-+play(Card) <-
++!play(Card) <-
     .print("Playing card: ", Card);
     .send("environment", tell, play_card(Card));
     .print("Played card and waiting for next turn.").
 
-// Handling updated hand information
+// Handling updated hand information when received
 +hand(UpdatedHand) <-
-    .retract(hand(_));
-    +hand(UpdatedHand);
-    .print("Updated hand: ", UpdatedHand).
+    .print("Updated hand received: ", UpdatedHand);
+    !update_hand(UpdatedHand).
 
-// Utility to parse and update hand based on perception
+// Rules for updating hand information
 +!update_hand(HandString) <-
     .substring(HandString, "hand(myName,", ")");
-    .split(_, ",", Cards);
-    -+hand(Cards[0], Cards[1], Cards[2]);
-    .print("Updated hand: ", Cards[0], ", ", Cards[1], ", ", Cards[2]).
+    briscola.utils.jason.split(_, ",", Cards);
+    .print("Updated hand: ", Cards);
+    -+hand(Cards[0], Cards[1], Cards[2]).

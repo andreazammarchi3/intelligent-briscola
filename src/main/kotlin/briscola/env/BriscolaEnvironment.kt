@@ -4,8 +4,7 @@ import briscola.view.MatchView
 import jason.asSyntax.Literal
 import jason.asSyntax.Structure
 import jason.environment.Environment
-import java.util.stream.Collectors
-import java.util.stream.Stream
+import java.lang.String.format
 
 
 class BriscolaEnvironment: Environment() {
@@ -15,10 +14,6 @@ class BriscolaEnvironment: Environment() {
     private val playCard1 : Literal = Literal.parseLiteral("play_card(1)")
     private val playCard2 : Literal = Literal.parseLiteral("play_card(2)")
 
-    init {
-        stop()
-    }
-
     fun newMatch(matchView: MatchView) {
         this.matchView = matchView
     }
@@ -27,14 +22,10 @@ class BriscolaEnvironment: Environment() {
         matchView = null
     }
 
-    override fun getPercepts(agName: String): Collection<Literal> {
-        if (matchView == null) return emptyList()
-        val percepts = Stream.concat(
-            turnPercepts().stream(),
-            handPercepts().stream()
-        ).collect(Collectors.toList())
-        println(percepts)
-        return percepts
+    override fun getPercepts(agName: String?): Collection<Literal> {
+        return listOf<Literal>(
+            Literal.parseLiteral(format("turn(%s)", if (matchView != null) !matchView!!.match.isPlayerTurn() else false)),
+        )
     }
 
     private fun turnPercepts(): Collection<Literal> {
@@ -44,16 +35,19 @@ class BriscolaEnvironment: Environment() {
     }
 
     private fun handPercepts(): Collection<Literal> {
-        val handString = if (matchView != null) matchView!!.match.bot.getHandCards().joinToString(",") else null
+        var handString = ""
+        if (matchView != null) {
+            for (card in matchView!!.match.bot.getHandCards()) {
+                handString += "card(${card.getRank()}, ${card.getSuit()}),"
+            }
+            handString = handString.dropLast(1)
+        }
         val literals = listOf(Literal.parseLiteral("hand($handString)"))
         return literals
     }
 
     override fun executeAction(agName: String?, action: Structure): Boolean {
-        try {
-            Thread.sleep(5000)
-        } catch (ignored: InterruptedException) {
-        }
+        println("Executing action: $action")
         if (matchView == null) return false
         when (action) {
             playCard0 -> matchView!!.cardPlayed(matchView!!.match.bot, matchView!!.match.bot.getHandCards()[0])
