@@ -23,23 +23,28 @@ import jason.asSyntax.Term
  */
 class get_winning_card: DefaultInternalAction() {
     override fun execute(ts: TransitionSystem, un: Unifier, args: Array<Term>): Any {
-        val cardsId = listOf(args[0].toString().toInt(), args[1].toString().toInt(), args[2].toString().toInt())
-        var cards = listOf(Card.getCardById(cardsId[0]), Card.getCardById(cardsId[1]), Card.getCardById(cardsId[2]))
-        println(cards)
-        cards = cards.filter { it != Card.NULL}
+        var cardsId = listOf(args[0].toString().toInt(), args[1].toString().toInt(), args[2].toString().toInt())
+        cardsId = cardsId.filter { it != -1 }
+        val cards = cardsId.map { Card.getCardById(it) }
+        println("cards: $cards")
         val briscolaSuit = Suit.fromString(args[3].toString())
+        println("briscola suit: $briscolaSuit")
         val opponentCard = Card.getCardById(args[4].toString().toInt())
+        println("opponent card: $opponentCard")
         for (card in cards) {
             if (getHigherCard(card, opponentCard, briscolaSuit) == card) {
+                println("winning card found: $card")
                 return un.unifies(args[5], ASSyntax.createNumber(card.getId().toDouble()))
             }
         }
         val sortedCards = cards.sortedBy { it.getValue() }
         val noBriscolaCards = sortedCards.filter { it.getSuit() != briscolaSuit }
-        return if (noBriscolaCards.isNotEmpty()) {
-            un.unifies(args[5], ASSyntax.createNumber(noBriscolaCards[0].getId().toDouble()))
+        val winningCard = if (noBriscolaCards.isNotEmpty()) {
+            noBriscolaCards[0]
         } else {
-            un.unifies(args[5], ASSyntax.createNumber(sortedCards[0].getId().toDouble()))
+            sortedCards[0]
         }
+        println("winning card: $winningCard")
+        return un.unifies(args[5], ASSyntax.createNumber(winningCard.getId().toDouble()))
     }
 }

@@ -21,18 +21,19 @@ import jason.asSyntax.Term
  */
 class get_lowest_card: DefaultInternalAction() {
     override fun execute(ts: TransitionSystem, un: Unifier, args: Array<Term>): Any {
-        val cardsId = listOf(args[0].toString().toInt(), args[1].toString().toInt(), args[2].toString().toInt())
-        var cards = listOf(Card.getCardById(cardsId[0]), Card.getCardById(cardsId[1]), Card.getCardById(cardsId[2]))
-        println(cards)
-        cards = cards.filter { it != Card.NULL}
+        var cardsId = listOf(args[0].toString().toInt(), args[1].toString().toInt(), args[2].toString().toInt())
+        cardsId = cardsId.filter { it != -1 }
+        val cards = cardsId.map { Card.getCardById(it) }
+        println("cards: $cards")
         val briscolaSuit = Suit.fromString(args[3].toString())
+        println("briscola suit: $briscolaSuit")
         val sortedCards = cards.sortedBy { it.getValue() }
         var noBriscolaCards = sortedCards.filter { it.getSuit() != briscolaSuit }
         if (noBriscolaCards.isEmpty()) {
             noBriscolaCards = sortedCards
         }
         // if the lowest cards have the same value, return the one with lower rank
-        return if (noBriscolaCards.size == 1) {
+        val card = if (noBriscolaCards.size == 1) {
             un.unifies(args[4], ASSyntax.createNumber(noBriscolaCards[0].getId().toDouble()))
         } else {
             if (noBriscolaCards[0].getValue() == noBriscolaCards[1].getValue()) {
@@ -41,5 +42,7 @@ class get_lowest_card: DefaultInternalAction() {
                 un.unifies(args[4], ASSyntax.createNumber(noBriscolaCards[0].getId().toDouble()))
             }
         }
+        println("lowest card: $card")
+        return card
     }
 }

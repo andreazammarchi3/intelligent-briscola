@@ -4,8 +4,6 @@ package briscola.model
  * Enum containing all the Cards in a typical deck of Briscola.
  */
 enum class Card(private val id: Int, private val suit: Suit, private val rank: Int, private val value: Int) {
-    NULL(-1, Suit.CLUBS, -1, -1),
-
     CLUBS_1(1, Suit.CLUBS, 1, 11),
     CLUBS_2(2, Suit.CLUBS, 2, 0),
     CLUBS_3(3, Suit.CLUBS, 3, 10),
@@ -106,7 +104,7 @@ enum class Card(private val id: Int, private val suit: Suit, private val rank: I
                     return card
                 }
             }
-            return NULL
+            throw IllegalArgumentException("No card with id $id found")
         }
     }
 }

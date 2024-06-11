@@ -70,10 +70,6 @@ class BriscolaEnvironment: Environment() {
             playCard2 -> matchView!!.cardPlayed(matchView!!.match.bot, matchView!!.match.bot.getHandCards()[2])
             else -> return false
         }
-        try {
-            Thread.sleep(4000) // Slowdown the system
-        } catch (ignored: InterruptedException) {
-        }
         return true
     }
 }

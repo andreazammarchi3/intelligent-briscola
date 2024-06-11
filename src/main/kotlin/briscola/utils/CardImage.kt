@@ -52,8 +52,7 @@ enum class CardImage(private val id: Int, private val path: String?) {
     SWORDS_10(40, "/imgs/cards/swords_ten.png"),
 
     BACK(41, "/imgs/back.png"),
-    NOT_FOUND(42, "/imgs/not_found.png"),
-    EMPTY(43, null);
+    NOT_FOUND(42, "/imgs/not_found.png");
 
     val image: Image?
         /**
@@ -74,7 +73,7 @@ enum class CardImage(private val id: Int, private val path: String?) {
                     return Image(cardImage.path)
                 }
             }
-            return Image(EMPTY.path)
+            return Image(NULL.path)
         }
     }
 }

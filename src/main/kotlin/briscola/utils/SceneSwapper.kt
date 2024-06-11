@@ -7,6 +7,7 @@ import javafx.scene.Scene
 import javafx.stage.Stage
 import java.io.IOException
 import java.util.*
+import kotlin.system.exitProcess
 
 
 /**
@@ -30,6 +31,7 @@ class SceneSwapper {
             stage.sizeToScene()
             stage.centerOnScreen()
             // setUpStage(stage);
+            stage.setOnCloseRequest { exitProcess(0) }
         } catch (e: IOException) {
             throw RuntimeException(e)
         }
