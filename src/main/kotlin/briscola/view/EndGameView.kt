@@ -55,7 +55,7 @@ class EndGameView(private val stage: Stage, private val match: Match, private va
      * Handles the click on the home button.
      */
     @FXML
-    private fun goHome(event: MouseEvent) {
+    private fun goHome() {
         SceneSwapper().swapScene(MenuView(stage, briscolaEnvironment), FxmlPath.MENU, stage)
     }
 }

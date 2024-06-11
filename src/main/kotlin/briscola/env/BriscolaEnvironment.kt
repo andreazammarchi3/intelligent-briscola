@@ -24,13 +24,41 @@ class BriscolaEnvironment: Environment() {
 
     override fun getPercepts(agName: String?): Collection<Literal> {
         if (matchView == null) return emptyList()
-        val literals = listOf<Literal>(
-            Literal.parseLiteral(format("turn(%s, %s)",
-                !matchView!!.match.isPlayerTurn(),
-                matchView!!.match.getPlayedCards().size))
+        val literals = listOf(
+            turnLiteral(),
+            handLiteral(),
+            briscolaSuitLiteral(),
+            playedCardLiteral()
         )
         // println("Percepts: $literals")
         return literals
+    }
+
+    private fun turnLiteral(): Literal {
+        return Literal.parseLiteral(format("turn(%s, %s)",
+            !matchView!!.match.isPlayerTurn(),
+            matchView!!.match.getPlayedCards().size
+        ))
+    }
+
+    private fun handLiteral(): Literal {
+        val hand = matchView!!.match.bot.getHandCards()
+        return Literal.parseLiteral(format("hand(%s, %s, %s)",
+            if (hand.isNotEmpty()) (hand[0].getId()) else -1,
+            if (hand.size > 1) hand[1].getId() else -1,
+            if (hand.size > 2) hand[2].getId() else -1
+        ))
+    }
+
+    private fun playedCardLiteral(): Literal {
+        val playedCards = matchView!!.match.getPlayedCards()
+        return Literal.parseLiteral(format("played_card(%s)",
+            if (playedCards.isNotEmpty()) playedCards[0].getId() else -1
+        ))
+    }
+
+    private fun briscolaSuitLiteral(): Literal {
+        return Literal.parseLiteral(format("briscola_suit(%s)", matchView!!.match.getBriscolaSuit().toString()))
     }
 
     override fun executeAction(agName: String?, action: Structure): Boolean {
