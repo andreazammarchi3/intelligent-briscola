@@ -16,5 +16,3 @@
 +!play_turn(B, N) : B = true & N = 2 <-
     .wait(2500);
     .print("Waiting for my turn...").
-
--!turn(B, N) <- !play_turn(B, N).
