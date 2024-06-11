@@ -106,7 +106,7 @@ class Match(val player: Player, val deck: MutableList<Card>) {
                     Winner.DRAW -> "Draw"
                     null -> "Unknown"
                 }
-                IO.saveEndedMatch(EndedMatch(player.name, result, player.points(), bot.points()))
+                IO.saveEndedMatch(EndedMatch(this.player.name, result, this.player.points(), bot.points()))
             }
         }
     }
