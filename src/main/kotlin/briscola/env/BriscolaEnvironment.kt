@@ -23,26 +23,13 @@ class BriscolaEnvironment: Environment() {
     }
 
     override fun getPercepts(agName: String?): Collection<Literal> {
-        return listOf<Literal>(
-            Literal.parseLiteral(format("turn(%s)", if (matchView != null) !matchView!!.match.isPlayerTurn() else false)),
+        if (matchView == null) return emptyList()
+        val literals = listOf<Literal>(
+            Literal.parseLiteral(format("turn(%s, %s)",
+                !matchView!!.match.isPlayerTurn(),
+                matchView!!.match.getPlayedCards().size))
         )
-    }
-
-    private fun turnPercepts(): Collection<Literal> {
-        val botTurn = if (matchView != null) !matchView!!.match.isPlayerTurn() else false
-        val literals = listOf(Literal.parseLiteral("turn($botTurn)"))
-        return literals
-    }
-
-    private fun handPercepts(): Collection<Literal> {
-        var handString = ""
-        if (matchView != null) {
-            for (card in matchView!!.match.bot.getHandCards()) {
-                handString += "card(${card.getRank()}, ${card.getSuit()}),"
-            }
-            handString = handString.dropLast(1)
-        }
-        val literals = listOf(Literal.parseLiteral("hand($handString)"))
+        // println("Percepts: $literals")
         return literals
     }
 
@@ -54,6 +41,10 @@ class BriscolaEnvironment: Environment() {
             playCard1 -> matchView!!.cardPlayed(matchView!!.match.bot, matchView!!.match.bot.getHandCards()[1])
             playCard2 -> matchView!!.cardPlayed(matchView!!.match.bot, matchView!!.match.bot.getHandCards()[2])
             else -> return false
+        }
+        try {
+            Thread.sleep(4000) // Slowdown the system
+        } catch (ignored: InterruptedException) {
         }
         return true
     }
