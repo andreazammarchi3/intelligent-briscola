@@ -29,3 +29,7 @@
     briscola.utils.jason.get_hand_card_position_by_id(Card1, Card2, Card3, WinningCard, CardToPlay);
     .print("Playing ", CardToPlay);
     play_card(CardToPlay).
+
+-!play_turn(B, N) <-
+    // do nothing
+    .print("Waiting for my turn...").
