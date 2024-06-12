@@ -2,6 +2,7 @@ package briscola.utils.jason
 
 import briscola.model.Card
 import briscola.model.Suit
+import briscola.utils.getCardsFromArgs
 import briscola.utils.getSameSuitCards
 import briscola.utils.orderCardsByHigherValueAndHigherRank
 import briscola.utils.orderCardsByLowerValueAndLowerRank

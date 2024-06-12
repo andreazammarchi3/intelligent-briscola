@@ -13,10 +13,10 @@
     .print("My turn! Playing as second.");
     !play_card_as_second.
 
-+!play_card_as_first : hand(Card1, Card2, Card3) & briscola_suit(BriscolaSuit) <-
-    briscola.utils.jason.play_lowest_card(Card1, Card2, Card3, BriscolaSuit, LowestCard);
++!play_card_as_first : hand(Card0, Card1, Card2) & briscola_suit(BriscolaSuit) <-
+    briscola.utils.jason.play_lowest_card(Card0, Card1, Card2, BriscolaSuit, LowestCard);
     play_card(LowestCard).
 
-+!play_card_as_second : hand(Card1, Card2, Card3) & played_card(PlayedCard) & briscola_suit(BriscolaSuit) <-
-    briscola.utils.jason.play_highest_card(Card1, Card2, Card3, BriscolaSuit, PlayedCard, HighestCard);
++!play_card_as_second : hand(Card0, Card1, Card2) & played_card(PlayedCard) & briscola_suit(BriscolaSuit) <-
+    briscola.utils.jason.play_highest_card(Card0, Card1, Card2, BriscolaSuit, PlayedCard, HighestCard);
     play_card(HighestCard).

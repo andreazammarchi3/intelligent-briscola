@@ -1,4 +1,4 @@
-package briscola.utils.jason
+package briscola.utils
 
 import briscola.model.Card
 import jason.asSyntax.Term

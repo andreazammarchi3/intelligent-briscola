@@ -1,6 +1,7 @@
 package briscola.utils.jason
 
 import briscola.model.Suit
+import briscola.utils.getCardsFromArgs
 import briscola.utils.getDifferentSuitCards
 import briscola.utils.orderCardsByLowerValueAndLowerRank
 import jason.asSemantics.DefaultInternalAction
