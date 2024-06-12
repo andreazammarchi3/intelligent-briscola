@@ -15,7 +15,7 @@ import kotlin.random.Random
  * @property briscolaSuit the briscola suit
  * @property playedCards the cards played in the match
  */
-class Match(val player: Player, val deck: MutableList<Card>) {
+class Match(val player: Player, val deck: MutableList<Card>, private val botLevel: BotLevel) {
     private var playerTurn = true
     private var winner: Winner? = null
     private var lastCard: Card? = null
@@ -106,7 +106,7 @@ class Match(val player: Player, val deck: MutableList<Card>) {
                     Winner.DRAW -> "Draw"
                     null -> "Unknown"
                 }
-                IO.saveEndedMatch(EndedMatch(this.player.name, result, this.player.points(), bot.points()))
+                IO.saveEndedMatch(EndedMatch(this.player.name, botLevel.toString(), result, this.player.points(), bot.points()))
             }
         }
     }

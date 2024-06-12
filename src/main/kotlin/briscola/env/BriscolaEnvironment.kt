@@ -6,13 +6,12 @@ import jason.asSyntax.Literal
 import jason.asSyntax.Structure
 import jason.environment.Environment
 import jason.infra.centralised.RunCentralisedMAS
-import java.io.File
 import java.lang.String.format
 
 
 class BriscolaEnvironment: Environment() {
     private var matchView: MatchView? = null
-    var mas: RunCentralisedMAS? = null
+    private var mas: RunCentralisedMAS? = null
     private var botLevel: BotLevel? = null
 
     private val playCard0 : Literal = Literal.parseLiteral("play_card(0)")

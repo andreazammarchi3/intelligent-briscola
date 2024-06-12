@@ -73,7 +73,7 @@ class MatchView(
     private val animationDuration = Duration.seconds(2.0)
 
     override fun initialize(url: URL?, resourceBundle: ResourceBundle?) {
-        match = Match(Player(playerName), Card.entries.toMutableList())
+        match = Match(Player(playerName), Card.entries.toMutableList(), botLevel)
         match.prepareMatch()
         lblBriscola.text = "Briscola: ${match.getBriscolaSuit().toString()}"
         btnQuit.setOnAction { quitMatch() }

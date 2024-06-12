@@ -25,6 +25,8 @@ class ScoreboardView(private val stage: Stage, private val briscolaEnvironment: 
     @FXML
     private lateinit var colPlayerName: TableColumn<EndedMatch, String>
     @FXML
+    private lateinit var colBotLevel: TableColumn<EndedMatch, String>
+    @FXML
     private lateinit var colResult: TableColumn<EndedMatch, String>
     @FXML
     private lateinit var colPlayerPoints: TableColumn<EndedMatch, String>
@@ -34,6 +36,7 @@ class ScoreboardView(private val stage: Stage, private val briscolaEnvironment: 
     override fun initialize(url: URL?, resourceBundle: ResourceBundle?) {
         val endedMatches = IO.getEndedMatches()
         colPlayerName.cellValueFactory = PropertyValueFactory("playerName")
+        colBotLevel.cellValueFactory = PropertyValueFactory("botLevel")
         colResult.cellValueFactory = PropertyValueFactory("result")
         colPlayerPoints.cellValueFactory = PropertyValueFactory("playerPoints")
         colBotPoints.cellValueFactory = PropertyValueFactory("botPoints")

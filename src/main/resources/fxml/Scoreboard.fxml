@@ -27,12 +27,13 @@
       <Button id="CoolBtn" fx:id="btnHome" mnemonicParsing="false" onMouseClicked="#goHome" stylesheets="@../style/style.css" text="Home" BorderPane.alignment="CENTER" />
    </bottom>
    <center>
-      <TableView fx:id="tableScoreboard" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <TableView fx:id="tableScoreboard" prefHeight="200.0" prefWidth="200.0" style="-fx-alignment: CENTER;" BorderPane.alignment="CENTER">
         <columns>
-          <TableColumn fx:id="colPlayerName" editable="false" prefWidth="75.0" text="PLAYER NAME" />
-          <TableColumn fx:id="colResult" editable="false" prefWidth="75.0" text="RESULT" />
-            <TableColumn fx:id="colPlayerPoints" editable="false" prefWidth="75.0" text="PLAYER POINTS" />
-            <TableColumn fx:id="colBotPoints" editable="false" prefWidth="75.0" text="BOT POINTS" />
+          <TableColumn fx:id="colPlayerName" editable="false" prefWidth="75.0" style="-fx-alignment: CENTER;" text="PL. NAME" />
+            <TableColumn fx:id="colBotLevel" editable="false" prefWidth="75.0" style="-fx-alignment: CENTER;" text="BOT LEVEL" />
+          <TableColumn fx:id="colResult" editable="false" prefWidth="75.0" style="-fx-alignment: CENTER;" text="RESULT" />
+            <TableColumn fx:id="colPlayerPoints" editable="false" prefWidth="75.0" style="-fx-alignment: CENTER;" text="PL. POINTS" />
+            <TableColumn fx:id="colBotPoints" editable="false" prefWidth="75.0" style="-fx-alignment: CENTER;" text="BOT POINTS" />
         </columns>
          <BorderPane.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
