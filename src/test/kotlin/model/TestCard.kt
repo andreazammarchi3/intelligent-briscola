@@ -43,7 +43,7 @@ class TestCard {
     @Test
     fun testGetCardById() {
         for (card in Card.entries) {
-            assertEquals(card, Card.getCardById(card.getId()))
+            assertEquals(card, Card.getCardFromId(card.getId()))
         }
     }
 

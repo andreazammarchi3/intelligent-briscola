@@ -1,7 +1,7 @@
 package briscola.model
 
 import briscola.utils.IO
-import briscola.utils.Math
+import briscola.utils.getHigherCard
 import kotlin.random.Random
 
 
@@ -167,7 +167,7 @@ class Match(val player: Player, val deck: MutableList<Card>, private val botLeve
     private fun cardPlayedSecond(currentPlayer: Player, card: Card) {
         currentPlayer.playCard(card)
         playedCards.add(card)
-        val higherCard = Math.getHigherCard(playedCards[0], playedCards[1], briscolaSuit!!)
+        val higherCard = getHigherCard(playedCards[0], playedCards[1], briscolaSuit!!)
         if ((higherCard == playedCards[1] && playerTurn) || (higherCard == playedCards[0] && !playerTurn)) {
             playerTurn = true
             playerDrawCard(player)

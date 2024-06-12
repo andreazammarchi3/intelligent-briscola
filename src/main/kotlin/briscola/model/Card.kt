@@ -91,6 +91,10 @@ enum class Card(private val id: Int, private val suit: Suit, private val rank: I
         }
     }
 
+    fun toLiteral(): String {
+        return "card($id, $suit, $rank, $value)"
+    }
+
     companion object {
         /**
          * Get the card with the given id.
@@ -98,7 +102,7 @@ enum class Card(private val id: Int, private val suit: Suit, private val rank: I
          * @return the card with the given id.
          * @throws IllegalArgumentException if no card with the given id is found.
          */
-        fun getCardById(id: Int): Card {
+        fun getCardFromId(id: Int): Card {
             for (card in entries) {
                 if (card.id == id) {
                     return card
