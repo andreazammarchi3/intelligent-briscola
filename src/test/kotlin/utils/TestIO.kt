@@ -12,8 +12,8 @@ import kotlin.test.assertEquals
 class TestIO {
     private val TEST_FILE_PATH = "src/test/resources/scoreboard/endedMatches.json"
     private val gson = Gson()
-    private val endedMatch1 = EndedMatch("Pippo", "Win", 120, 0)
-    private val endedMatch2 = EndedMatch("Pluto", "Loss", 0, 120)
+    private val endedMatch1 = EndedMatch("Pippo", "stupid", "Win", 120, 0)
+    private val endedMatch2 = EndedMatch("Pluto", "normal", "Loss", 0, 120)
 
     @Test
     fun testSaveEndedMatch() {

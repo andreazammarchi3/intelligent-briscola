@@ -1,12 +1,12 @@
 package model
 
 import briscola.model.*
-import briscola.utils.Math
+import briscola.utils.getHigherCard
 import kotlin.test.*
 
 class TestMatch {
     private val player = Player("Player")
-    private val match = Match(player, Card.entries.toMutableList())
+    private val match = Match(player, Card.entries.toMutableList(), BotLevel.STUPID)
 
     @Test
     fun testInit() {
@@ -73,7 +73,7 @@ class TestMatch {
 
         val card2 = match.bot.getHandCards()[0]
         match.playCard(match.bot, card2)
-        if (Math.getHigherCard(card1, card2, match.getBriscolaSuit()!!) == card1) {
+        if (getHigherCard(card1, card2, match.getBriscolaSuit()!!) == card1) {
             assertTrue(match.player.getGainedCards().isNotEmpty())
             assertTrue(match.bot.getGainedCards().isEmpty())
         } else {
