@@ -1,15 +1,15 @@
-+turn(B, N) : match_started(normal) <-
-    !play_turn(B, N).
++turn(BotTurn, NPlayedCards) : match_started(normal) <-
+    !play_turn(BotTurn, NPlayedCards).
 
-+!play_turn(B, N) : B = false <-
++!play_turn(BotTurn, NPlayedCards) : BotTurn = false <-
     .print("Waiting for my turn...").
 
-+!play_turn(B, N) : B = true & N = 0 <-
++!play_turn(BotTurn, NPlayedCards) : BotTurn = true & NPlayedCards = 0 <-
     .wait(2500);
     .print("My turn! Playing as first.");
     !play_card_as_first.
 
-+!play_turn(B, N) : B = true & N = 1 <-
++!play_turn(BotTurn, NPlayedCards) : BotTurn = true & NPlayedCards = 1 <-
     .print("My turn! Playing as second.");
     !play_card_as_second.
 
