@@ -1,12 +1,14 @@
 package briscola.view
 
 import briscola.env.BriscolaEnvironment
+import briscola.model.BotLevel
 import briscola.model.Card
 import briscola.model.Match
 import briscola.model.Player
 import briscola.utils.CardImage
 import briscola.utils.FxmlPath
 import briscola.utils.SceneSwapper
+import jason.infra.centralised.RunCentralisedMAS
 import javafx.animation.KeyFrame
 import javafx.animation.Timeline
 import javafx.fxml.FXML
@@ -18,6 +20,7 @@ import javafx.scene.input.MouseEvent
 import javafx.scene.layout.BorderPane
 import javafx.stage.Stage
 import javafx.util.Duration
+import java.io.File
 import java.net.URL
 import java.util.*
 
@@ -28,7 +31,12 @@ import java.util.*
  * @param playerName the name of the player
  * @constructor creates a new match view
  */
-class MatchView(private val stage: Stage, private val playerName: String, private val briscolaEnvironment: BriscolaEnvironment) : Initializable {
+class MatchView(
+    private val stage: Stage,
+    private val playerName: String,
+    private val botLevel: BotLevel,
+    private var briscolaEnvironment: BriscolaEnvironment
+) : Initializable {
     @FXML
     private lateinit var btnQuit: Button
     @FXML
@@ -74,7 +82,7 @@ class MatchView(private val stage: Stage, private val playerName: String, privat
 
         updateLabels()
 
-        briscolaEnvironment.newMatch(this)
+        briscolaEnvironment.newMatch(this, botLevel)
     }
 
     private fun quitMatch() {

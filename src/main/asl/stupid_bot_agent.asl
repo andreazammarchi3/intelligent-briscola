@@ -1,4 +1,4 @@
-+turn(B, N) <-
++turn(B, N) : match_started(stupid) <-
     !play_turn(B, N).
 
 +!play_turn(B, N) : B = false <-

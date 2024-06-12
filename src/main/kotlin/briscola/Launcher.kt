@@ -22,12 +22,13 @@ class Launcher: Application() {
     private fun startJasonEnvironment() {
         Thread {
             try {
-                val file = File("src/briscola.mas2j")
+                val file = File("src/main/resources/mas2j/briscola.mas2j")
                 val mas = RunCentralisedMAS()
                 mas.init(arrayOf(file.absolutePath))
                 mas.create()
                 mas.start()
                 env = mas.environmentInfraTier.userEnvironment as BriscolaEnvironment
+                env.setMAS(mas)
                 // Start JavaFX UI setup after environment is ready
                 javafx.application.Platform.runLater {
                     setupJavaFX()

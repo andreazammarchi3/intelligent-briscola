@@ -5,7 +5,8 @@ MAS briscola {
 	environment: briscola.env.BriscolaEnvironment
 
 	agents:
-		bot normal_bot_agent;
+	    stupid_bot stupid_bot_agent;
+		normal_bot normal_bot_agent;
 
 	aslSourcePath:
 		"src/main/asl";

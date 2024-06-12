@@ -1,21 +1,31 @@
 package briscola.env
 
+import briscola.model.BotLevel
 import briscola.view.MatchView
 import jason.asSyntax.Literal
 import jason.asSyntax.Structure
 import jason.environment.Environment
+import jason.infra.centralised.RunCentralisedMAS
+import java.io.File
 import java.lang.String.format
 
 
 class BriscolaEnvironment: Environment() {
     private var matchView: MatchView? = null
+    var mas: RunCentralisedMAS? = null
+    private var botLevel: BotLevel? = null
 
     private val playCard0 : Literal = Literal.parseLiteral("play_card(0)")
     private val playCard1 : Literal = Literal.parseLiteral("play_card(1)")
     private val playCard2 : Literal = Literal.parseLiteral("play_card(2)")
 
-    fun newMatch(matchView: MatchView) {
+    fun setMAS(mas: RunCentralisedMAS) {
+        this.mas = mas
+    }
+
+    fun newMatch(matchView: MatchView, botLevel: BotLevel) {
         this.matchView = matchView
+        this.botLevel = botLevel
     }
 
     fun matchEnded() {
@@ -25,6 +35,7 @@ class BriscolaEnvironment: Environment() {
     override fun getPercepts(agName: String?): Collection<Literal> {
         if (matchView == null) return emptyList()
         val literals = listOf(
+            matchStartedLiteral(),
             turnLiteral(),
             handLiteral(),
             briscolaSuitLiteral(),
@@ -32,6 +43,12 @@ class BriscolaEnvironment: Environment() {
         )
         // println("Percepts: $literals")
         return literals
+    }
+
+    private fun matchStartedLiteral(): Literal {
+        return Literal.parseLiteral(format("match_started(%s)",
+            botLevel.toString()
+        ))
     }
 
     private fun turnLiteral(): Literal {
