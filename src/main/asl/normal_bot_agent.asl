@@ -68,7 +68,6 @@
     .findall(card(Id, Suit, Rank, Value), 
         .member(card(Id, Suit, Rank, Value), Cards) & briscola.utils.jason.get_higher_card(PlayedCard, card(Id, Suit, Rank, Value), BriscolaSuit, Result) & Result = true,
         HigherCards);
-    .print("Higher cards: ", HigherCards);
     /* If there are higher cards, play the one with the lowest value. */
     if (.empty(HigherCards)) {
         /* If there are no higher cards, play the lowest card in hand. */
