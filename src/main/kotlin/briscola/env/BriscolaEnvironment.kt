@@ -34,7 +34,7 @@ class BriscolaEnvironment: Environment() {
     override fun getPercepts(agName: String?): Collection<Literal> {
         if (matchView == null) return emptyList()
         val literals = listOf(
-            matchStartedLiteral(),
+            botLevelLiteral(),
             turnLiteral(),
             handLiteral(),
             briscolaSuitLiteral(),
@@ -44,8 +44,8 @@ class BriscolaEnvironment: Environment() {
         return literals
     }
 
-    private fun matchStartedLiteral(): Literal {
-        return Literal.parseLiteral(format("match_started(%s)",
+    private fun botLevelLiteral(): Literal {
+        return Literal.parseLiteral(format("bot_level(%s)",
             botLevel.toString()
         ))
     }
@@ -59,18 +59,25 @@ class BriscolaEnvironment: Environment() {
 
     private fun handLiteral(): Literal {
         val hand = matchView!!.match.bot.getHandCards()
-        return Literal.parseLiteral(format("hand(%s, %s, %s)",
-            if (hand.isNotEmpty()) (hand[0].getId()) else -1,
-            if (hand.size > 1) hand[1].getId() else -1,
-            if (hand.size > 2) hand[2].getId() else -1
-        ))
+        val cardDetails = hand.joinToString(", ") { card ->
+            "card(${card.getId()}, ${card.getSuit()}, ${card.getRank()}, ${card.getValue()})"
+        }
+        return Literal.parseLiteral("hand([$cardDetails])")
     }
 
+
     private fun playedCardLiteral(): Literal {
-        val playedCards = matchView!!.match.getPlayedCards()
-        return Literal.parseLiteral(format("played_card(%s)",
-            if (playedCards.isNotEmpty()) playedCards[0].getId() else -1
-        ))
+        val playedCard = matchView!!.match.getPlayedCards().firstOrNull()
+        return if (playedCard != null) {
+            Literal.parseLiteral(format("played_card(card(%s, %s, %s, %s))",
+                playedCard.getId(),
+                playedCard.getSuit(),
+                playedCard.getRank(),
+                playedCard.getValue()
+            ))
+        } else {
+            Literal.parseLiteral("played_card(none)")
+        }
     }
 
     private fun briscolaSuitLiteral(): Literal {
@@ -78,12 +85,12 @@ class BriscolaEnvironment: Environment() {
     }
 
     override fun executeAction(agName: String?, action: Structure): Boolean {
-        println("Executing action: $action")
+        println("Executing action: $action \n")
         if (matchView == null) return false
         when (action) {
-            playCard0 -> matchView!!.cardPlayed(matchView!!.match.bot, matchView!!.match.bot.getHandCards()[0])
-            playCard1 -> matchView!!.cardPlayed(matchView!!.match.bot, matchView!!.match.bot.getHandCards()[1])
-            playCard2 -> matchView!!.cardPlayed(matchView!!.match.bot, matchView!!.match.bot.getHandCards()[2])
+            playCard0 -> matchView!!.cardPlayed(matchView!!.match.bot, matchView!!.match.bot.getHandCards()[0], 0)
+            playCard1 -> matchView!!.cardPlayed(matchView!!.match.bot, matchView!!.match.bot.getHandCards()[1], 1)
+            playCard2 -> matchView!!.cardPlayed(matchView!!.match.bot, matchView!!.match.bot.getHandCards()[2], 2)
             else -> return false
         }
         return true

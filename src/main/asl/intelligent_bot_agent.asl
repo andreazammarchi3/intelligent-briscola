@@ -1,8 +1,3 @@
-// An agent to play Briscola
-// This bot plays against a human in Briscola, interacting directly with a Kotlin environment
-
-/* Beliefs and Plans */
-
 // Percepts
 // hand(List of cards) - Each card is now "id_suit_rank_value"
 // turn(BotTurn, NPlayedCards) - Indicates if it's the bot's turn and the number of cards played
@@ -11,10 +6,10 @@
 // briscola_suit(Suit) - The suit of the briscola card
 
 // Reacting to the game state
-+hand(List) : bot_level(normal) <- 
++hand(List) : bot_level(intelligent) <-
     .print("Current hand: ", List).
 
-+turn(BotTurn, NPlayedCards) : bot_level(normal) & BotTurn = true <- 
++turn(BotTurn, NPlayedCards) : bot_level(intelligent) & BotTurn = true <-
     !play_turn(NPlayedCards).
 
 // Decide on the action based on the number of played cards
@@ -70,8 +65,34 @@
         // if there are no higher cards, play the lowest card in hand
         !get_less_value_cards(Cards, LessValueCards);
     } else {
-        // get the card with the lowest value from the higher cards
-        !get_less_value_cards(HigherCards, LessValueCards);
+        // if player played a card with 0 value (not briscola), try to win with the same suit
+        if (PlayedCard = card(_, PlayedSuit, _, 0)) {
+            .findall(card(Id, PlayedSuit, Rank, Value), .member(card(Id, PlayedSuit, Rank, Value), HigherCards), SameSuitHigherCards);
+            if (.empty(SameSuitHigherCards)) {
+                // if there are no higher cards with the same suit, play the lowest card in hand
+                !get_less_value_cards(Cards, LessValueCards);
+            } else {
+                // if there are higher cards with the same suit, play the one with the lowest value
+                !get_less_value_cards(SameSuitHigherCards, LessValueCards);
+            }
+        } else {
+            // if player played a card with a value
+            if (PlayedCard = card(_, BriscolaSuit, _, _)) {
+                // if the played card is briscola, play a card with 0 value (not briscola), if possible
+                !get_less_value_cards(Cards, LessValues);
+                !get_lowest_rank_card(LessValues, Lowest);
+                if (Lowest = card(_, Suit, _, 0) & not Suit = BriscolaSuit) {
+                    !play_a_card(Lowest);
+                } else {
+                    // if there are no cards with 0 value, play the lowest winning card in hand
+                    !get_less_value_cards(HigherCards, LessValueCards);
+                }
+            } else {
+                // if the played card is not briscola, play the lowest winning card in hand
+                !get_less_value_cards(HigherCards, LessValueCards);
+            }
+
+        }
     };
     !get_lowest_rank_card(LessValueCards, LowestCard);
     !play_a_card(LowestCard).

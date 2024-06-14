@@ -67,7 +67,7 @@ class Match(val player: Player, val deck: MutableList<Card>, private val botLeve
      * @param shuffleDeck true if the deck should be shuffled, false otherwise, default is true
      * @param startingPlayerOption the starting player option, default is random
      */
-    fun prepareMatch(shuffleDeck: Boolean = true, startingPlayerOption: StartingPlayerOption = StartingPlayerOption.PLAYER) {
+    fun prepareMatch(shuffleDeck: Boolean = true, startingPlayerOption: StartingPlayerOption = StartingPlayerOption.RANDOM) {
         if (shuffleDeck) deck.shuffle()
 
         lastCard = deck.removeAt(0)

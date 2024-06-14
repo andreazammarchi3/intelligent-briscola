@@ -92,7 +92,7 @@ enum class Card(private val id: Int, private val suit: Suit, private val rank: I
     }
 
     fun toLiteral(): String {
-        return "card($id, $suit, $rank, $value)"
+        return "${id}_${suit}_${rank}_${value}"
     }
 
     companion object {
