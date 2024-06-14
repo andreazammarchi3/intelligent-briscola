@@ -4,7 +4,13 @@ import briscola.model.EndedMatch
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
+/**
+ * Test class for EndedMatch
+ */
 class TestEndedMatch {
+    /**
+     * Test the properties of EndedMatch
+     */
     @Test
     fun testEndedMatch() {
         val endedMatch = EndedMatch("player1", "stupid", "Win", 61, 59)
@@ -14,6 +20,9 @@ class TestEndedMatch {
         assertEquals(59, endedMatch.botPoints)
     }
 
+    /**
+     * Test the equals method of EndedMatch
+     */
     @Test
     fun testEquals() {
         val endedMatch1 = EndedMatch("player1", "stupid", "Win", 61, 59)

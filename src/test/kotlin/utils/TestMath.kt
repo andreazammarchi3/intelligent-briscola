@@ -6,7 +6,13 @@ import briscola.utils.getHigherCard
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
+/**
+ * Test the math utility functions.
+ */
 class TestMath {
+    /**
+     * Test the getHigherCard function.
+     */
     @Test
     fun testGetHigherCard() {
         // Test same suit, higher value

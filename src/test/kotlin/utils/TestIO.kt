@@ -9,12 +9,18 @@ import java.io.FileWriter
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
+/**
+ * Test class for the IO utility class.
+ */
 class TestIO {
     private val TEST_FILE_PATH = "src/test/resources/scoreboard/endedMatches.json"
     private val gson = Gson()
     private val endedMatch1 = EndedMatch("Pippo", "stupid", "Win", 120, 0)
     private val endedMatch2 = EndedMatch("Pluto", "normal", "Loss", 0, 120)
 
+    /**
+     * Test the saveEndedMatch method.
+     */
     @Test
     fun testSaveEndedMatch() {
         IO.saveEndedMatch(endedMatch1, test = true)
@@ -32,6 +38,9 @@ class TestIO {
     }
 
 
+    /**
+     * Test the getEndedMatches method.
+     */
     @Test
     fun testGetEndedMatches() {
         // Prepare the test environment by clearing the existing file and writing known test data
