@@ -44,11 +44,12 @@
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <BorderPane>
                <center>
-                  <Label id="NormalLabel" stylesheets="@../style/style.css" text="Player name" BorderPane.alignment="BOTTOM_CENTER" />
+                  <Label id="NormalLabel" stylesheets="@../style/style.css" text="Player name:" BorderPane.alignment="BOTTOM_CENTER" />
                </center>
             </BorderPane>
             <BorderPane GridPane.columnIndex="1">
@@ -58,12 +59,22 @@
             </BorderPane>
             <BorderPane GridPane.rowIndex="1">
                <center>
-                  <Label id="NormalLabel" stylesheets="@../style/style.css" text="Bot Level" BorderPane.alignment="TOP_CENTER" />
+                  <Label id="NormalLabel" stylesheets="@../style/style.css" text="Bot Level:" BorderPane.alignment="CENTER" />
                </center>
             </BorderPane>
             <BorderPane GridPane.columnIndex="1" GridPane.rowIndex="1">
                <center>
-                  <ComboBox fx:id="comboBotLevel" prefWidth="250.0" promptText="Select Bot Level" BorderPane.alignment="TOP_LEFT" />
+                  <ComboBox fx:id="comboBotLevel" prefWidth="250.0" promptText="Select Bot Level" BorderPane.alignment="CENTER" />
+               </center>
+            </BorderPane>
+            <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
+               <center>
+                  <Label id="NormalLabel" stylesheets="@../style/style.css" text="Starting player:" BorderPane.alignment="TOP_CENTER" />
+               </center>
+            </BorderPane>
+            <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <center>
+                  <ComboBox fx:id="comboStartingPlayer" prefWidth="250.0" promptText="Select Starting Player" BorderPane.alignment="TOP_CENTER" />
                </center>
             </BorderPane>
          </children>

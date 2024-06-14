@@ -25,12 +25,14 @@ import java.util.*
  * @param stage the stage where the view is shown
  * @param playerName the name of the player
  * @param botLevel the level of the bot
+ * @param startingPlayer the starting player option
  * @param briscolaEnvironment the environment of the game
  */
 class MatchView(
     private val stage: Stage,
     private val playerName: String,
     private val botLevel: BotLevel,
+    private val startingPlayer: StartingPlayerOption,
     private var briscolaEnvironment: BriscolaEnvironment) : Initializable {
     @FXML
     private lateinit var btnQuit: Button
@@ -69,7 +71,7 @@ class MatchView(
 
     override fun initialize(url: URL?, resourceBundle: ResourceBundle?) {
         match = Match(Player(playerName), Card.entries.toMutableList(), botLevel)
-        match.prepareMatch(startingPlayerOption = StartingPlayerOption.PLAYER)
+        match.prepareMatch(startingPlayerOption = startingPlayer)
         lblBriscola.text = "Briscola: ${match.briscolaSuit.toString()}"
         btnQuit.setOnAction { quitMatch() }
 

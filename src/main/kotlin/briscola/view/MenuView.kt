@@ -2,6 +2,7 @@ package briscola.view
 
 import briscola.env.BriscolaEnvironment
 import briscola.model.BotLevel
+import briscola.model.StartingPlayerOption
 import briscola.utils.FxmlPath
 import briscola.utils.SceneSwapper
 import javafx.fxml.FXML
@@ -23,10 +24,14 @@ class MenuView(private val stage: Stage, private val briscolaEnvironment: Brisco
     private lateinit var txtPlayerName: TextField
     @FXML
     private lateinit var comboBotLevel: ComboBox<String>
+    @FXML
+    private lateinit var comboStartingPlayer: ComboBox<String>
 
     override fun initialize(url: URL?, resourceBundle: ResourceBundle?) {
         comboBotLevel.items.addAll(BotLevel.entries.map { it.toString() })
         comboBotLevel.selectionModel.selectFirst()
+        comboStartingPlayer.items.addAll(StartingPlayerOption.entries.map { it.toString() })
+        comboStartingPlayer.selectionModel.selectFirst()
     }
 
     /**
@@ -37,7 +42,10 @@ class MenuView(private val stage: Stage, private val briscolaEnvironment: Brisco
         val playerName = txtPlayerName.text
         if (playerName.isNotBlank() && playerName.isNotEmpty()) {
             val botLevel = BotLevel.fromString(comboBotLevel.selectionModel.selectedItem)
-            SceneSwapper().swapScene(MatchView(stage, playerName, botLevel, briscolaEnvironment), FxmlPath.MATCH, stage)
+            val startingPlayer = StartingPlayerOption.fromString(comboStartingPlayer.selectionModel.selectedItem)
+            SceneSwapper().swapScene(MatchView(stage, playerName, botLevel, startingPlayer, briscolaEnvironment),
+                FxmlPath.MATCH,
+                stage)
         } else {
             txtPlayerName.promptText = "Please enter a name"
         }
