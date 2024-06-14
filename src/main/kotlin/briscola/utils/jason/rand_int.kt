@@ -7,6 +7,9 @@ import jason.asSyntax.ASSyntax
 import jason.asSyntax.Term
 import kotlin.random.Random
 
+/**
+ * Generate a random integer between the given range.
+ */
 class rand_int: DefaultInternalAction() {
     override fun execute(ts: TransitionSystem, un: Unifier, args: Array<Term>): Boolean {
         val min = args[0].toString().toInt()

@@ -15,20 +15,20 @@ import briscola.model.Suit
  * @return the higher card
  */
 fun getHigherCard(card1: Card, card2: Card, briscolaSuit: Suit): Card {
-    if (card1.getSuit() == briscolaSuit && card2.getSuit() != briscolaSuit) {
+    if (card1.suit == briscolaSuit && card2.suit != briscolaSuit) {
         return card1
-    } else if (card1.getSuit() != briscolaSuit && card2.getSuit() == briscolaSuit) {
+    } else if (card1.suit != briscolaSuit && card2.suit == briscolaSuit) {
         return card2
     } else {
-        return if (card1.getSuit() != card2.getSuit()) {
+        return if (card1.suit != card2.suit) {
             card1
         } else {
-            if (card1.getValue() < card2.getValue()) {
+            if (card1.value < card2.value) {
                 card2
-            } else if (card1.getValue() > card2.getValue()) {
+            } else if (card1.value > card2.value) {
                 card1
             } else {
-                if (card1.getRank() < card2.getRank()) {
+                if (card1.rank < card2.rank) {
                     card2
                 } else {
                     card1

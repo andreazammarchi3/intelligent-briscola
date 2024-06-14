@@ -15,63 +15,26 @@ import kotlin.random.Random
  * @property briscolaSuit the briscola suit
  * @property playedCards the cards played in the match
  */
-class Match(val player: Player, val deck: MutableList<Card>, private val botLevel: BotLevel) {
-    private var playerTurn = true
-    private var winner: Winner? = null
-    private var lastCard: Card? = null
-    private var briscolaSuit: Suit? = null
-    private val playedCards = mutableListOf<Card>()
+class Match(val player: Player, val deck: MutableList<Card>, val botLevel: BotLevel) {
+    var playerTurn = true
+    var winner: Winner? = null
+    var lastCard: Card? = null
+    var briscolaSuit: Suit? = null
+    val playedCards = mutableListOf<Card>()
 
     var bot = Player("Bot", isBot = true)
 
     /**
-     * Check if it's player's turn
-     * @return true if it's player's turn, false otherwise
-     */
-    fun isPlayerTurn(): Boolean {
-        return playerTurn
-    }
-
-    /**
-     * Get the winner of the match
-     * @return the winner of the match
-     */
-    fun getWinner(): Winner? {
-        return winner
-    }
-
-    /**
-     * Get the last card drawn from the deck
-     * @return the last card drawn from the deck
-     */
-    fun getLastCard(): Card? {
-        return lastCard
-    }
-
-    /**
-     * Get the briscola suit
-     */
-    fun getBriscolaSuit(): Suit? {
-        return briscolaSuit
-    }
-
-    /**
-     * Get the cards played in the match
-     */
-    fun getPlayedCards(): List<Card> {
-        return playedCards
-    }
-
-    /**
-     * Prepare the match by shuffling the deck, setting the last card and giving 3 cards to each player
+     * Prepare the match by shuffling the deck, setting the last card and giving 3 cards to each player.
      * @param shuffleDeck true if the deck should be shuffled, false otherwise, default is true
      * @param startingPlayerOption the starting player option, default is random
      */
-    fun prepareMatch(shuffleDeck: Boolean = true, startingPlayerOption: StartingPlayerOption = StartingPlayerOption.RANDOM) {
+    fun prepareMatch(shuffleDeck: Boolean = true,
+                     startingPlayerOption: StartingPlayerOption = StartingPlayerOption.RANDOM) {
         if (shuffleDeck) deck.shuffle()
 
         lastCard = deck.removeAt(0)
-        briscolaSuit = lastCard!!.getSuit()
+        briscolaSuit = lastCard!!.suit
 
         playerTurn = if (startingPlayerOption == StartingPlayerOption.RANDOM) {
             Random.nextBoolean()
@@ -86,7 +49,7 @@ class Match(val player: Player, val deck: MutableList<Card>, private val botLeve
     }
 
     /**
-     * Let the player play a card
+     * Let a player play a card
      * @param player the player that plays the card
      * @param card the card played by the player
      */
@@ -106,7 +69,10 @@ class Match(val player: Player, val deck: MutableList<Card>, private val botLeve
                     Winner.DRAW -> "Draw"
                     null -> "Unknown"
                 }
-                IO.saveEndedMatch(EndedMatch(this.player.name, botLevel.toString(), result, this.player.points(), bot.points()))
+                IO.saveEndedMatch(EndedMatch(this.player.name, botLevel.toString(),
+                    result,
+                    this.player.points(),
+                    bot.points()))
             }
         }
     }
@@ -127,10 +93,11 @@ class Match(val player: Player, val deck: MutableList<Card>, private val botLeve
 
     /**
      * Check if the match has a winner, if so set the winner, otherwise do nothing.
-     * If the match ended in a draw, set the winner to a new player with the name "Draw"
+     * The winner is the player with the most points when both players have no cards left in their hand.
+     * If the points are equal, the match is a draw.
      */
     fun checkWinner() {
-        winner = if (player.getHandCards().isEmpty() && bot.getHandCards().isEmpty()) {
+        winner = if (player.handCards.isEmpty() && bot.handCards.isEmpty()) {
             if (player.points() > bot.points()) {
                 Winner.PLAYER
             } else if (player.points() < bot.points()) {
@@ -144,9 +111,19 @@ class Match(val player: Player, val deck: MutableList<Card>, private val botLeve
     }
 
     override fun toString(): String {
-        return "Match(player=$player, playerTurn=$playerTurn, winner=$winner, lastCard=$lastCard, briscolaSuit=$briscolaSuit, playedCards=$playedCards)"
+        return "Match(player=$player, " +
+                "playerTurn=$playerTurn, " +
+                "winner=$winner, " +
+                "lastCard=$lastCard, " +
+                "briscolaSuit=$briscolaSuit, " +
+                "playedCards=$playedCards)"
     }
 
+    /**
+     * A player draws a card from the deck.
+     * If the deck is empty, the player draws the last card.
+     * @param player the player that draws the card
+     */
     private fun playerDrawCard(player: Player) {
         if (deck.isEmpty()) {
             if (lastCard != null) {
@@ -158,12 +135,22 @@ class Match(val player: Player, val deck: MutableList<Card>, private val botLeve
         player.drawCard(deck.removeAt(0))
     }
 
+    /**
+     * A player plays a card as the first card of the turn.
+     * @param currentPlayer the player that plays the card
+     * @param card the card played by the player
+     */
     private fun cardPlayedFirst(currentPlayer: Player, card: Card) {
         currentPlayer.playCard(card)
         playedCards.add(card)
         playerTurn = !playerTurn
     }
 
+    /**
+     * A player plays a card as the second card of the turn.
+     * @param currentPlayer the player that plays the card
+     * @param card the card played by the player
+     */
     private fun cardPlayedSecond(currentPlayer: Player, card: Card) {
         currentPlayer.playCard(card)
         playedCards.add(card)

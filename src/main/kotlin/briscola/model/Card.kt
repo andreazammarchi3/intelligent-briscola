@@ -2,8 +2,12 @@ package briscola.model
 
 /**
  * Enum containing all the Cards in a typical deck of Briscola.
+ * @param id the id of the card.
+ * @param suit the suit of the card.
+ * @param rank the rank of the card.
+ * @param value the value of the card.
  */
-enum class Card(private val id: Int, private val suit: Suit, private val rank: Int, private val value: Int) {
+enum class Card(val id: Int, val suit: Suit, val rank: Int, val value: Int) {
     CLUBS_1(1, Suit.CLUBS, 1, 11),
     CLUBS_2(2, Suit.CLUBS, 2, 0),
     CLUBS_3(3, Suit.CLUBS, 3, 10),
@@ -48,39 +52,6 @@ enum class Card(private val id: Int, private val suit: Suit, private val rank: I
     SWORDS_9(39, Suit.SWORDS, 9, 3),
     SWORDS_10(40, Suit.SWORDS, 10, 4);
 
-
-    /**
-     * Get the id of the card.
-     * @return the id of the card.
-     */
-    fun getId(): Int {
-        return id
-    }
-
-    /**
-     * Get the suit of the card.
-     * @return the suit of the card.
-     */
-    fun getSuit(): Suit {
-        return suit
-    }
-
-    /**
-     * Get the rank of the card.
-     * @return the rank of the card.
-     */
-    fun getRank(): Int {
-        return rank
-    }
-
-    /**
-     * Get the value of the card.
-     * @return the value of the card.
-     */
-    fun getValue(): Int {
-        return value
-    }
-
     override fun toString(): String {
         return when (rank) {
             1 -> "Ace of $suit"
@@ -91,15 +62,11 @@ enum class Card(private val id: Int, private val suit: Suit, private val rank: I
         }
     }
 
-    fun toLiteral(): String {
-        return "${id}_${suit}_${rank}_${value}"
-    }
-
     companion object {
         /**
-         * Get the card with the given id.
+         * Get the card from the given id.
          * @param id the id of the card.
-         * @return the card with the given id.
+         * @return the [Card] with the given id.
          * @throws IllegalArgumentException if no card with the given id is found.
          */
         fun getCardFromId(id: Int): Card {

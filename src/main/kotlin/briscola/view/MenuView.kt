@@ -15,10 +15,10 @@ import java.util.*
 /**
  * This class is the controller for the menu view.
  * @param stage the stage to which the view is attached
+ * @param briscolaEnvironment the environment of the game
  * @constructor creates a new menu view controller
  */
 class MenuView(private val stage: Stage, private val briscolaEnvironment: BriscolaEnvironment) : Initializable {
-
     @FXML
     private lateinit var txtPlayerName: TextField
     @FXML
@@ -29,7 +29,7 @@ class MenuView(private val stage: Stage, private val briscolaEnvironment: Brisco
         comboBotLevel.selectionModel.selectFirst()
     }
 
-/**
+    /**
      * Handles the click on the start button.
      */
     @FXML

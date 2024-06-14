@@ -18,8 +18,11 @@ import java.util.*
  * This class is the controller for the end game view.
  * @param stage the stage where the view is shown
  * @param match the match that has just ended
+ * @param briscolaEnvironment the environment of the game
  */
-class EndGameView(private val stage: Stage, private val match: Match, private val briscolaEnvironment: BriscolaEnvironment) : Initializable {
+class EndGameView(private val stage: Stage,
+                  private val match: Match,
+                  private val briscolaEnvironment: BriscolaEnvironment) : Initializable {
     @FXML
     private lateinit var lblTitle: Label
     @FXML
@@ -34,28 +37,32 @@ class EndGameView(private val stage: Stage, private val match: Match, private va
     private lateinit var listBotCards: ListView<String>
 
     override fun initialize(url: URL?, resourceBundle: ResourceBundle?) {
-        if (match.getWinner() == Winner.PLAYER) {
-            lblTitle.text = "CONGRATULATIONS!"
-            lblWin.text = "You won!"
-        } else if (match.getWinner() == Winner.BOT) {
-            lblTitle.text = "GAME OVER"
-            lblWin.text = "You lost!"
-        } else {
-            lblTitle.text = "DRAW"
-            lblWin.text = "It's a draw!"
+        when (match.winner) {
+            Winner.PLAYER -> {
+                lblTitle.text = "CONGRATULATIONS!"
+                lblWin.text = "You won!"
+            }
+            Winner.BOT -> {
+                lblTitle.text = "GAME OVER"
+                lblWin.text = "You lost!"
+            }
+            else -> {
+                lblTitle.text = "DRAW"
+                lblWin.text = "It's a draw!"
+            }
         }
 
         lblPLayerPoints.text = "${match.player.name} points: ${match.player.points()}"
         lblBotPoints.text = "Bot points: ${match.bot.points()}"
-        listPLayerCards.items.addAll(match.player.getGainedCards().map { it.toString() })
-        listBotCards.items.addAll(match.bot.getGainedCards().map { it.toString() })
+        listPLayerCards.items.addAll(match.player.gainedCards.map { it.toString() })
+        listBotCards.items.addAll(match.bot.gainedCards.map { it.toString() })
     }
 
     /**
      * Handles the click on the home button.
      */
     @FXML
-    private fun goHome() {
+    private fun goHome(event: MouseEvent) {
         SceneSwapper().swapScene(MenuView(stage, briscolaEnvironment), FxmlPath.MENU, stage)
     }
 }

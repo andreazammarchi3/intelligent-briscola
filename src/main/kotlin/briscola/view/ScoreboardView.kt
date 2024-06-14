@@ -18,6 +18,7 @@ import java.util.*
 /**
  * This class is the controller for the scoreboard view.
  * @param stage the stage where the view is shown
+ * @param briscolaEnvironment the environment of the game
  */
 class ScoreboardView(private val stage: Stage, private val briscolaEnvironment: BriscolaEnvironment) : Initializable {
     @FXML

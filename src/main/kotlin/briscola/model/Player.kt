@@ -6,30 +6,14 @@ package briscola.model
  * @param isBot Whether the player is a bot or not.
  */
 open class Player(val name: String,
-             val isBot: Boolean = false,
-             private val handCards: MutableList<Card> = mutableListOf(),
-             private val gainedCards: MutableList<Card> = mutableListOf()) {
-
-    /**
-     * Get the hand cards of the player.
-     * @return The hand cards of the player.
-     */
-    fun getHandCards(): List<Card> {
-        return handCards
-    }
-
-    /**
-     * Get the gained cards of the player.
-     * @return The gained cards of the player.
-     */
-    fun getGainedCards(): List<Card> {
-        return gainedCards
-    }
+                  val isBot: Boolean = false,
+                  val handCards: MutableList<Card> = mutableListOf(),
+                  val gainedCards: MutableList<Card> = mutableListOf()) {
 
     /**
      * Check if the player has a card.
      * @param card The card to check.
-     * @return Whether the player has the card.
+     * @return [Boolean] Whether the player has the card.
      */
     fun hasCardInHand(card: Card): Boolean {
         return handCards.contains(card)
@@ -38,7 +22,7 @@ open class Player(val name: String,
     /**
      * Check if the player has a card in the gained cards.
      * @param card The card to check.
-     * @return Whether the player has the card in the gained cards.
+     * @return [Boolean] Whether the player has the card in the gained cards.
      */
     fun hasCardInGained(card: Card): Boolean {
         return gainedCards.contains(card)
@@ -62,7 +46,7 @@ open class Player(val name: String,
     /**
      * Play a card from the player's hand.
      * @param card The card to play.
-     * @return The card played.
+     * @return The [Card] played.
      * @throws IllegalArgumentException If the player does not have the card in hand.
      */
     fun playCard(card: Card): Card {
@@ -87,15 +71,15 @@ open class Player(val name: String,
 
     /**
      * Get the points of the player's gained cards.
-     * @return The points of the player's gained cards.
+     * @return [Int] The points of the player's gained cards.
      */
     fun points(): Int {
         return gainedCards.sumOf {
-            it.getValue()
+            it.value
         }
     }
 
-        /**
+    /**
      * Reset the player's state.
      */
     fun reset() {

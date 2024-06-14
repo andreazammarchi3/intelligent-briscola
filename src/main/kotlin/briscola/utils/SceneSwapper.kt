@@ -19,6 +19,7 @@ class SceneSwapper {
      * @param controller The controller to be assigned to the scene.
      * @param fxmlPath The path to the fxml file.
      * @param stage The stage containing the new scene.
+     * @throws RuntimeException if the fxml file is not found.
      */
     fun swapScene(controller: Initializable, fxmlPath: FxmlPath, stage: Stage) {
         val loader = FXMLLoader(Objects.requireNonNull(javaClass.getResource(PATH + fxmlPath.path)))
@@ -30,7 +31,6 @@ class SceneSwapper {
             stage.show()
             stage.sizeToScene()
             stage.centerOnScreen()
-            // setUpStage(stage);
             stage.setOnCloseRequest { exitProcess(0) }
         } catch (e: IOException) {
             throw RuntimeException(e)
@@ -39,7 +39,6 @@ class SceneSwapper {
 
     companion object {
         private const val PATH = "/fxml/"
-
 
         /**
          * If a new stage has been created, set it up (title, size, icon and position). Use only for menu scenes.
@@ -50,15 +49,6 @@ class SceneSwapper {
             stage.title = "Intelligent Briscola"
             stage.show()
             stage.icons.add(CardImage.BACK.image)
-        }
-
-        /**
-         * Update the size of the stage.
-         * @param stage the stage to be resized
-         */
-        fun setDim(stage: Stage, width: Int, height: Int) {
-            stage.width = width.toDouble()
-            stage.height = height.toDouble()
         }
     }
 }

@@ -7,6 +7,9 @@ import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
 
+/**
+ * Utility class to read and write EndedMatch objects to a JSON file.
+ */
 class IO {
     companion object {
         private const val FILE_PATH = "src/main/resources/scoreboard/endedMatches.json"
@@ -29,7 +32,7 @@ class IO {
 
         /**
          * Reads all EndedMatches from the JSON file.
-         * @return a list of EndedMatches
+         * @return the list of [EndedMatch] saved in the JSON file
          */
         fun getEndedMatches(test: Boolean = false): List<EndedMatch> {
             val file = File(if (test) TEST_FILE_PATH else FILE_PATH)

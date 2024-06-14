@@ -9,6 +9,9 @@ import jason.asSemantics.Unifier
 import jason.asSyntax.ASSyntax
 import jason.asSyntax.Term
 
+/**
+ * Check if the second card is higher than the first card.
+ */
 class get_higher_card: DefaultInternalAction() {
     override fun execute(ts: TransitionSystem, un: Unifier, args: Array<Term>): Boolean {
         val card1 = extractCard(args[0].toString())
@@ -18,9 +21,12 @@ class get_higher_card: DefaultInternalAction() {
         return un.unifies(args[3], ASSyntax.createAtom(result.toString()))
     }
 
+    /**
+     * Extract a card from a string.
+     * @param cardString the string representing the card
+     * @return the [Card]
+     * */
     private fun extractCard(cardString: String): Card {
-        // a card string is like "card(id, suit, rank, value)"
-        // remove "card("
         val cardStringEdited = cardString.substring(5, cardString.length - 1)
         val card = cardStringEdited.split(",")
         return Card.getCardFromId(card[0].toInt())

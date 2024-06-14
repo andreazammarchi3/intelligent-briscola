@@ -3,7 +3,9 @@ package briscola.utils
 import javafx.scene.image.Image
 
 /**
- * Enum containing all the possible cards.
+ * Enum containing all the possible cards images.
+ * @property id the id of the card
+ * @property path the path of the card image
  */
 enum class CardImage(private val id: Int, private val path: String?) {
     NULL(0, null),
@@ -54,18 +56,18 @@ enum class CardImage(private val id: Int, private val path: String?) {
     BACK(41, "/imgs/back.png"),
     NOT_FOUND(42, "/imgs/not_found.png");
 
+    /**
+     * Get the card [Image]
+     * @return the card [Image] if the path is not null, null otherwise
+     */
     val image: Image?
-        /**
-         * Get the card Image
-         * @return the Image
-         */
         get() = if (path != null) Image(path) else null
 
     companion object {
         /**
          * Get the card Image by the card id
          * @param id the id of the card
-         * @return the Image of the card
+         * @return the [Image] of the card
          */
         fun getImageById(id: Int): Image {
             for (cardImage in entries) {

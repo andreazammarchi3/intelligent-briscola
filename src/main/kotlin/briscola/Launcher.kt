@@ -10,6 +10,10 @@ import javafx.stage.Stage
 import java.io.File
 
 
+/**
+ * Main class to start the application.
+ * It starts the Jason environment and then the JavaFX UI.
+ */
 class Launcher: Application() {
     private lateinit var env: BriscolaEnvironment
     private lateinit var stage: Stage
@@ -19,6 +23,10 @@ class Launcher: Application() {
         startJasonEnvironment()
     }
 
+    /**
+     * Start the Jason environment in a separate thread.
+     * When the environment is ready, it starts the JavaFX UI.
+     */
     private fun startJasonEnvironment() {
         Thread {
             try {
@@ -39,6 +47,9 @@ class Launcher: Application() {
         }.start()
     }
 
+    /**
+     * Set up the JavaFX UI.
+     */
     private fun setupJavaFX() {
         val menuView = MenuView(stage, env)
         SceneSwapper().swapScene(menuView, FxmlPath.MENU, stage)
@@ -46,6 +57,9 @@ class Launcher: Application() {
     }
 }
 
+/**
+ * Main function to start the application.
+ */
 fun main() {
     Application.launch(Launcher::class.java)
 }

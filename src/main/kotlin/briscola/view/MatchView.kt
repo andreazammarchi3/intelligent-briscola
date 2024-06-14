@@ -24,14 +24,14 @@ import java.util.*
  * The view that represents the match.
  * @param stage the stage where the view is shown
  * @param playerName the name of the player
- * @constructor creates a new match view
+ * @param botLevel the level of the bot
+ * @param briscolaEnvironment the environment of the game
  */
 class MatchView(
     private val stage: Stage,
     private val playerName: String,
     private val botLevel: BotLevel,
-    private var briscolaEnvironment: BriscolaEnvironment
-) : Initializable {
+    private var briscolaEnvironment: BriscolaEnvironment) : Initializable {
     @FXML
     private lateinit var btnQuit: Button
     @FXML
@@ -70,7 +70,7 @@ class MatchView(
     override fun initialize(url: URL?, resourceBundle: ResourceBundle?) {
         match = Match(Player(playerName), Card.entries.toMutableList(), botLevel)
         match.prepareMatch(startingPlayerOption = StartingPlayerOption.PLAYER)
-        lblBriscola.text = "Briscola: ${match.getBriscolaSuit().toString()}"
+        lblBriscola.text = "Briscola: ${match.briscolaSuit.toString()}"
         btnQuit.setOnAction { quitMatch() }
 
         updateImages()
@@ -80,71 +80,17 @@ class MatchView(
         briscolaEnvironment.newMatch(this, botLevel)
     }
 
-    private fun quitMatch() {
-        SceneSwapper().swapScene(MenuView(stage, briscolaEnvironment), FxmlPath.MENU, stage)
-        briscolaEnvironment.matchEnded()
-    }
-
-    private fun updateImages() {
-        // set up last card image and deck image
-        imgLastCard.image = match.getLastCard()?.let { CardImage.getImageById(it.getId()) }
-        imgDeck.image = if (match.deck.isNotEmpty()) CardImage.BACK.image else null
-
-        // set up hand card images of player
-        val playerHandSize = match.player.getHandCards().size
-        imgPlayerHandCard0.image = if (playerHandSize > 0) CardImage.getImageById(match.player.getHandCards()[0].getId()) else null
-        imgPlayerHandCard1.image = if (playerHandSize > 1) CardImage.getImageById(match.player.getHandCards()[1].getId()) else null
-        imgPlayerHandCard2.image = if (playerHandSize > 2) CardImage.getImageById(match.player.getHandCards()[2].getId()) else null
-
-        // set up hand card images of bot
-        val botHandSize = match.bot.getHandCards().size
-        imgBotHandCard0.image = if (botHandSize > 0) CardImage.BACK.image else null
-        imgBotHandCard1.image = if (botHandSize > 1) CardImage.BACK.image else null
-        imgBotHandCard2.image = if (botHandSize > 2) CardImage.BACK.image else null
-
-        // set up played card images
-        highlightCardTurn(match.isPlayerTurn())
-    }
-
-    private fun highlightCardTurn(playerTurn: Boolean) {
-        if (playerTurn) {
-            imgBotPlayedCard.parent.id = "BorderedPane"
-            imgPlayerPlayedCard.parent.id = "SelectedBorderedPane"
-        } else {
-            imgBotPlayedCard.parent.id = "SelectedBorderedPane"
-            imgPlayerPlayedCard.parent.id = "BorderedPane"
-        }
-    }
-
-    private fun updateLabels() {
-        lblDeckCardsLeft.text = "Card(s) left: ${match.deck.size}"
-        lblBotGainedCards.text = "Bot gained cards: ${match.bot.getGainedCards().size}"
-        lblPlayerGainedCards.text = "Player gained cards: ${match.player.getGainedCards().size}"
-    }
-
-    private fun updateCardPlayed(player: Player, card: Card, cardHandPosition: Int) {
-        if (player == match.player) {
-            imgPlayerPlayedCard.image = CardImage.getImageById(card.getId())
-            when (cardHandPosition) {
-                0 -> imgPlayerHandCard0.image = null
-                1 -> imgPlayerHandCard1.image = null
-                2 -> imgPlayerHandCard2.image = null
-            }
-        } else {
-            imgBotPlayedCard.image = CardImage.getImageById(card.getId())
-            when (cardHandPosition) {
-                0 -> imgBotHandCard0.image = null
-                1 -> imgBotHandCard1.image = null
-                2 -> imgBotHandCard2.image = null
-            }
-        }
-    }
-
+    /**
+     * Plays the card of the player and the bot.
+     * @param player the player that played the card
+     * @param card the card that was played
+     * @param cardHandPosition the position of the card in the hand
+     */
     fun cardPlayed(player: Player, card: Card, cardHandPosition: Int) {
         match.playCard(player, card)
-        if (match.getPlayedCards().size % 2 == 1) {
+        if (match.playedCards.size % 2 == 1) {
             updateCardPlayed(player, card, cardHandPosition)
-            highlightCardTurn(match.isPlayerTurn())
+            highlightCardTurn(match.playerTurn)
         } else {
             updateCardPlayed(player, card, cardHandPosition)
 
@@ -156,7 +102,7 @@ class MatchView(
                 imgBotPlayedCard.image = null
                 updateImages()
                 updateLabels()
-                if (match.getWinner() != null) {
+                if (match.winner != null) {
                     SceneSwapper().swapScene(EndGameView(stage, match, briscolaEnvironment), FxmlPath.END_GAME, stage)
                     briscolaEnvironment.matchEnded()
                 }
@@ -165,29 +111,116 @@ class MatchView(
         }
     }
 
-    @FXML
-    private fun onCardClicked(event: MouseEvent) {
-        if (!match.isPlayerTurn()) return
-        val pane = event.source as BorderPane
-        val cardImageView = pane.children[0] as ImageView
-        val card = when (cardImageView) {
-            imgPlayerHandCard0 -> match.player.getHandCards()[0]
-            imgPlayerHandCard1 -> match.player.getHandCards()[1]
-            imgPlayerHandCard2 -> match.player.getHandCards()[2]
-            else -> throw IllegalArgumentException("Invalid card image view")
-        }
-        if (match.player.getHandCards().contains(card)) {
-            cardPlayed(match.player, card, match.player.getHandCards().indexOf(card))
+    /**
+     * Quits the match and goes back to the menu.
+     */
+    private fun quitMatch() {
+        SceneSwapper().swapScene(MenuView(stage, briscolaEnvironment), FxmlPath.MENU, stage)
+        briscolaEnvironment.matchEnded()
+    }
+
+    /**
+     * Updates the images of the cards.
+     */
+    private fun updateImages() {
+        // set up last card image and deck image
+        imgLastCard.image = match.lastCard?.let { CardImage.getImageById(it.id) }
+        imgDeck.image = if (match.deck.isNotEmpty()) CardImage.BACK.image else null
+
+        // set up hand card images of player
+        val playerHandSize = match.player.handCards.size
+        imgPlayerHandCard0.image = if (playerHandSize > 0) CardImage.getImageById(match.player.handCards[0].id) else null
+        imgPlayerHandCard1.image = if (playerHandSize > 1) CardImage.getImageById(match.player.handCards[1].id) else null
+        imgPlayerHandCard2.image = if (playerHandSize > 2) CardImage.getImageById(match.player.handCards[2].id) else null
+
+        // set up hand card images of bot
+        val botHandSize = match.bot.handCards.size
+        imgBotHandCard0.image = if (botHandSize > 0) CardImage.BACK.image else null
+        imgBotHandCard1.image = if (botHandSize > 1) CardImage.BACK.image else null
+        imgBotHandCard2.image = if (botHandSize > 2) CardImage.BACK.image else null
+
+        // set up played card images
+        highlightCardTurn(match.playerTurn)
+    }
+
+    /**
+     * Highlights the card that is played by the player or the bot.
+     */
+    private fun highlightCardTurn(playerTurn: Boolean) {
+        if (playerTurn) {
+            imgBotPlayedCard.parent.id = "BorderedPane"
+            imgPlayerPlayedCard.parent.id = "SelectedBorderedPane"
+        } else {
+            imgBotPlayedCard.parent.id = "SelectedBorderedPane"
+            imgPlayerPlayedCard.parent.id = "BorderedPane"
         }
     }
 
+    /**
+     * Updates the labels of the view.
+     */
+    private fun updateLabels() {
+        lblDeckCardsLeft.text = "Card(s) left: ${match.deck.size}"
+        lblBotGainedCards.text = "Bot gained cards: ${match.bot.gainedCards.size}"
+        lblPlayerGainedCards.text = "Player gained cards: ${match.player.gainedCards.size}"
+    }
+
+    /**
+     * Updates the card played image by the player or the bot.
+     * @param player the player that played the card
+     * @param card the card that was played
+     * @param cardHandPosition the position of the card in the hand
+     */
+    private fun updateCardPlayed(player: Player, card: Card, cardHandPosition: Int) {
+        if (player == match.player) {
+            imgPlayerPlayedCard.image = CardImage.getImageById(card.id)
+            when (cardHandPosition) {
+                0 -> imgPlayerHandCard0.image = null
+                1 -> imgPlayerHandCard1.image = null
+                2 -> imgPlayerHandCard2.image = null
+            }
+        } else {
+            imgBotPlayedCard.image = CardImage.getImageById(card.id)
+            when (cardHandPosition) {
+                0 -> imgBotHandCard0.image = null
+                1 -> imgBotHandCard1.image = null
+                2 -> imgBotHandCard2.image = null
+            }
+        }
+    }
+
+    /**
+     * Handles the event when a card is clicked.
+     */
+    @FXML
+    private fun onCardClicked(event: MouseEvent) {
+        if (!match.playerTurn) return
+        val pane = event.source as BorderPane
+        val cardImageView = pane.children[0] as ImageView
+        val card = when (cardImageView) {
+            imgPlayerHandCard0 -> match.player.handCards[0]
+            imgPlayerHandCard1 -> match.player.handCards[1]
+            imgPlayerHandCard2 -> match.player.handCards[2]
+            else -> throw IllegalArgumentException("Invalid card image view")
+        }
+        if (match.player.handCards.contains(card)) {
+            cardPlayed(match.player, card, match.player.handCards.indexOf(card))
+        }
+    }
+
+    /**
+     * Handles the event when the mouse enters a card.
+     */
     @FXML
     private fun onMouseEntered(event: MouseEvent) {
-        if (!match.isPlayerTurn()) return
+        if (!match.playerTurn) return
         val source = event.source as BorderPane
         source.id = "SelectedBorderedPane"
     }
 
+    /**
+     * Handles the event when the mouse exits a card.
+     */
     @FXML
     private fun onMouseExited(event: MouseEvent) {
         val source = event.source as BorderPane
