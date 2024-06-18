@@ -1,7 +1,7 @@
-package model
+package briscola.model
 
-import briscola.model.StartingPlayerOption
-import kotlin.test.*
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 /**
  * Test [StartingPlayerOption] class.

@@ -1,7 +1,5 @@
-package model
+package briscola.model
 
-import briscola.model.Card
-import briscola.model.Player
 import kotlin.test.*
 
 /**

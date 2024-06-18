@@ -1,8 +1,7 @@
-package utils
+package briscola.utils
 
 import briscola.model.Card
 import briscola.model.Suit
-import briscola.utils.getHigherCard
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

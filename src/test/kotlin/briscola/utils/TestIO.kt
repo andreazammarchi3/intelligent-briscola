@@ -1,7 +1,6 @@
-package utils
+package briscola.utils
 
 import briscola.model.EndedMatch
-import briscola.utils.IO
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.File

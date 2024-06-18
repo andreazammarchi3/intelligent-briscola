@@ -1,6 +1,5 @@
-package model
+package briscola.model
 
-import briscola.model.*
 import briscola.utils.getHigherCard
 import kotlin.test.*
 

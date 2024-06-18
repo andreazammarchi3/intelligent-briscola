@@ -1,6 +1,5 @@
-package model
+package briscola.model
 
-import briscola.model.BotLevel
 import kotlin.test.Test
 
 /**

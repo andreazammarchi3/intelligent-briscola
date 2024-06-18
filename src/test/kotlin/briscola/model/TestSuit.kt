@@ -1,6 +1,5 @@
-package model
+package briscola.model
 
-import briscola.model.Suit
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

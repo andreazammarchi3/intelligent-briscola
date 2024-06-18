@@ -1,6 +1,5 @@
-package model
+package briscola.model
 
-import briscola.model.EndedMatch
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
