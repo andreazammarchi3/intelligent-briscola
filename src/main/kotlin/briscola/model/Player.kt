@@ -46,15 +46,13 @@ open class Player(val name: String,
     /**
      * Play a card from the player's hand.
      * @param card The card to play.
-     * @return The [Card] played.
      * @throws IllegalArgumentException If the player does not have the card in hand.
      */
-    fun playCard(card: Card): Card {
+    fun playCard(card: Card) {
         if (hasCardInHand(card).not()) {
             throw IllegalArgumentException("Player does not have the card in hand")
         }
         handCards.remove(card)
-        return card
     }
 
     /**
