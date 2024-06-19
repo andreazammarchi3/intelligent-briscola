@@ -45,11 +45,11 @@ To get started with Intelligent Briscola, follow these steps:
 
 ## Screenshots 📸
 
-<img width="612" alt="screen_menu" src="https://github.com/andreazammarchi3/intelligent-briscola/assets/73186502/849e5eb5-91f3-4565-a262-d251edef7885">
+<img width="500" alt="screen_menu" src="https://github.com/andreazammarchi3/intelligent-briscola/assets/73186502/849e5eb5-91f3-4565-a262-d251edef7885">
 
-<img width="1132" alt="screen_match" src="https://github.com/andreazammarchi3/intelligent-briscola/assets/73186502/fef00058-4253-4d9b-922f-b6ee1ba072f2">
+<img width="800" alt="screen_match" src="https://github.com/andreazammarchi3/intelligent-briscola/assets/73186502/fef00058-4253-4d9b-922f-b6ee1ba072f2">
 
-<img width="612" alt="screen_scoreboard" src="https://github.com/andreazammarchi3/intelligent-briscola/assets/73186502/c0cdda10-9f2e-48ea-8a1e-920afa9e3f8f">
+<img width="500" alt="screen_scoreboard" src="https://github.com/andreazammarchi3/intelligent-briscola/assets/73186502/c0cdda10-9f2e-48ea-8a1e-920afa9e3f8f">
 
 
 ## Development Details 🔧
