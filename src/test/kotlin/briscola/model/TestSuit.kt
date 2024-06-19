@@ -1,5 +1,6 @@
 package briscola.model
 
+import org.junit.jupiter.api.assertThrows
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -27,5 +28,6 @@ class TestSuit {
         assertEquals(Suit.COINS, Suit.fromString("coins"))
         assertEquals(Suit.CUPS, Suit.fromString("cups"))
         assertEquals(Suit.SWORDS, Suit.fromString("swords"))
+        assertThrows<IllegalArgumentException> { Suit.fromString("invalid") }
     }
 }

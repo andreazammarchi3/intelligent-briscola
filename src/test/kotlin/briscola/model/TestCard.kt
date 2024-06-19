@@ -1,5 +1,6 @@
 package briscola.model
 
+import org.junit.jupiter.api.assertThrows
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -32,6 +33,7 @@ class TestCard {
         for (card in Card.entries) {
             assertEquals(card, Card.getCardFromId(card.id))
         }
+        assertThrows<IllegalArgumentException> { Card.getCardFromId(-1) }
     }
 
     /**

@@ -24,5 +24,6 @@ class TestBotLevel {
         assert(BotLevel.fromString("stupid") == BotLevel.STUPID)
         assert(BotLevel.fromString("normal") == BotLevel.NORMAL)
         assert(BotLevel.fromString("intelligent") == BotLevel.INTELLIGENT)
+        assert(BotLevel.fromString("unknown") == BotLevel.STUPID)
     }
 }

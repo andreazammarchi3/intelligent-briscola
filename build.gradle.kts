@@ -75,6 +75,7 @@ tasks.jacocoTestReport {
                 exclude("briscola/view/**")
                 exclude("briscola/env/**")
                 exclude("briscola/utils/jason/**")
+                exclude("briscola/utils/SceneSwapper*")
             }
         })
     )

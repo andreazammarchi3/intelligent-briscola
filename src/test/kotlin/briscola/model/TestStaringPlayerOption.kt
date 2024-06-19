@@ -25,5 +25,6 @@ class TestStaringPlayerOption {
         assertEquals(StartingPlayerOption.RANDOM, StartingPlayerOption.fromString("Random"))
         assertEquals(StartingPlayerOption.PLAYER, StartingPlayerOption.fromString("Player"))
         assertEquals(StartingPlayerOption.BOT, StartingPlayerOption.fromString("Bot"))
+        assertEquals(StartingPlayerOption.RANDOM, StartingPlayerOption.fromString("unknown"))
     }
 }

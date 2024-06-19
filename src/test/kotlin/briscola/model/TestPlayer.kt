@@ -117,12 +117,55 @@ class TestPlayer {
      */
     @Test
     fun testEquals() {
+        assertFalse(player.equals(null))
+
         val player2 = Player(
             "Player",
             false,
             mutableListOf(handCard1, handCard2),
             mutableListOf(gainedCard1, gainedCard2))
         assertEquals(player, player2)
+
+        val playerWithDifferentName = Player(
+            "Player2",
+            false,
+            mutableListOf(handCard1, handCard2),
+            mutableListOf(gainedCard1, gainedCard2))
+        assertNotEquals(player, playerWithDifferentName)
+
+        val playerIsBot = Player(
+            "Player",
+            true,
+            mutableListOf(handCard1, handCard2),
+            mutableListOf(gainedCard1, gainedCard2))
+        assertNotEquals(player, playerIsBot)
+
+        val playerWithDifferentHandCards = Player(
+            "Player",
+            false,
+            mutableListOf(handCard2, handCard1),
+            mutableListOf(gainedCard1, gainedCard2))
+        assertNotEquals(player, playerWithDifferentHandCards)
+
+        val playerWithDifferentGainedCards = Player(
+            "Player",
+            false,
+            mutableListOf(handCard1, handCard2),
+            mutableListOf(gainedCard2, gainedCard1))
+        assertNotEquals(player, playerWithDifferentGainedCards)
     }
 
+    /**
+     * Test hashCode method.
+     */
+    @Test
+    fun testHashCode() {
+        val player2 = Player(
+            "Player",
+            false,
+            mutableListOf(handCard1, handCard2),
+            mutableListOf(gainedCard1, gainedCard2)
+        )
+        assertEquals(player.hashCode(), player2.hashCode())
+    }
 }
