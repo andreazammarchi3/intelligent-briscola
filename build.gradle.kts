@@ -54,7 +54,7 @@ file("src").listFiles()?.filter { it.extension == "mas2j" }?.forEach { mas2jFile
 }
 
 tasks.named<org.jetbrains.dokka.gradle.DokkaTask>("dokkaHtml") {
-    outputDirectory.set(layout.buildDirectory.dir("dokka"))
+    outputDirectory.set(layout.buildDirectory.dir("docs"))
 }
 
 
