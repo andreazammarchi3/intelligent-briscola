@@ -1,8 +1,8 @@
 plugins {
     kotlin("jvm") version "1.9.23"
     application
-
     id("org.openjfx.javafxplugin") version "0.0.13"
+    id("org.jetbrains.dokka") version "1.9.0"
 }
 
 application {
@@ -52,3 +52,9 @@ file("src").listFiles()?.filter { it.extension == "mas2j" }?.forEach { mas2jFile
         javaLauncher.set(javaToolchains.launcherFor(java.toolchain))
     }
 }
+
+tasks.named<org.jetbrains.dokka.gradle.DokkaTask>("dokkaHtml") {
+    outputDirectory.set(layout.buildDirectory.dir("dokka"))
+}
+
+
