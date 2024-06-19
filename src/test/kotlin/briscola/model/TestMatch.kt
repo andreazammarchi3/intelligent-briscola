@@ -39,7 +39,7 @@ class TestMatch {
 
     @Test
     fun testPlayCard() {
-        match.prepareMatch()
+        match.prepareMatch(startingPlayerOption = StartingPlayerOption.PLAYER)
 
         val card1 = match.player.handCards[0]
         match.playCard(match.player, card1)
