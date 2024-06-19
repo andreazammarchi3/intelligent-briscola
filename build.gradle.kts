@@ -3,6 +3,7 @@ plugins {
     application
     id("org.openjfx.javafxplugin") version "0.0.13"
     id("org.jetbrains.dokka") version "1.9.0"
+    id("jacoco")
 }
 
 application {
@@ -55,6 +56,28 @@ file("src").listFiles()?.filter { it.extension == "mas2j" }?.forEach { mas2jFile
 
 tasks.named<org.jetbrains.dokka.gradle.DokkaTask>("dokkaHtml") {
     outputDirectory.set(file("docs"))
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test) // Tests are required to run before generating the report
+
+    reports {
+        xml.required.set(true)
+        csv.required.set(false)
+        html.outputLocation.set(file("build/reports/jacoco"))
+    }
+
+    classDirectories.setFrom(
+        files(classDirectories.files.map {
+            fileTree(it) {
+                // Exclude specific packages
+                exclude("briscola/Launcher*")
+                exclude("briscola/view/**")
+                exclude("briscola/env/**")
+                exclude("briscola/utils/jason/**")
+            }
+        })
+    )
 }
 
 
