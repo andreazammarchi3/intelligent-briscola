@@ -1,0 +1,14 @@
+MAS briscola {
+
+	infrastructure: Centralised
+
+	environment: briscola.env.BriscolaEnvironment
+
+	agents:
+	    stupid_bot stupid_bot_agent;
+		normal_bot normal_bot_agent;
+		intelligent_bot intelligent_bot_agent;
+
+	aslSourcePath:
+		"src/main/asl";
+}

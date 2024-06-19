@@ -105,3 +105,10 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+# Scoreboard
+/src/main/resources/scoreboard/
+/src/test/resources/scoreboard/
+
+# MAS files
+.stop___MAS
