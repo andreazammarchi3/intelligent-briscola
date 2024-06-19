@@ -78,7 +78,7 @@
         !get_less_value_cards(Cards, LessValueCards);
     } else {
         /* If player played a card with 0 value (not briscola), try to win with the same suit. */
-        if (PlayedCard = card(_, PlayedSuit, _, 0)) {
+        if (PlayedCard = card(_, PlayedSuit, _, 0) & not PlayedSuit = BriscolaSuit) {
             .findall(card(Id, PlayedSuit, Rank, Value), .member(card(Id, PlayedSuit, Rank, Value), HigherCards), SameSuitHigherCards);
             if (.empty(SameSuitHigherCards)) {
                 /* If there are no higher cards with the same suit, play the lowest card in hand. */
