@@ -1,6 +1,6 @@
 # Intelligent Briscola 🎴🃏
 
-**Intelligent Briscola**: The classic Italian card game reimagined! Now you can challenge yourself against bots with varying levels of intelligence. Whether you're looking for a casual game or a strategic battle, Intelligent Briscola offers it all. Play against our sophisticated AI and see if you can outsmart it! 🤖✨
+**Intelligent Briscola**: The classic Italian card game reimagined! Now you can challenge yourself against bots with varying levels of intelligence. Whether you're looking for a casual game or a strategic battle, Intelligent Briscola offers it all. Play against a sophisticated AI and see if you can outsmart it! 🤖✨
 
 ## Features 🌟
 
